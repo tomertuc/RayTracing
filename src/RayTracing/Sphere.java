@@ -25,7 +25,7 @@ public class Sphere {
 		
 		double a = 1;
 		double b = Vector.dotProductVectors(Vector.multiplyVectorByScalar(ray.direction, 2), Vector.substractVectors(ray.origin, center));
-				
+		double c =  Math.pow(Vector.getSize(Vector.substractVectors(ray.origin, center)), 2) - Math.pow(radius, 2);
 		
 		
 		
