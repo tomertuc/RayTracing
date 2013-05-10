@@ -51,7 +51,7 @@ public class Camera {
 	public Screen getScreenFromCamera(int imageWidth, int imageHeight){
 		//compute screen
 		//based on Ray Casting presentation, page 16
-		Screen screen=new Screen();
+		Screen screen=new Screen(Vx, Vy, Vz);
 		
 		Vector E=position;
 		double f=scrDist;
