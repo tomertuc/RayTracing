@@ -48,7 +48,7 @@ public class Camera {
 		Vx=u;
 	}
 	
-	public Screen getScreenFromCamera(int imageWidth, int imageHeight){
+	public Screen getScreenFromCamera(){
 		//compute screen
 		return null;
 	}

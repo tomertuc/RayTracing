@@ -21,13 +21,4 @@ public class Point3d {
 		this.y=py;
 		this.z=pz;
 	}
-	
-	public static Point3d addPoints (Point3d point1, Point3d point2){
-		return Vector.addVectors(new Vector(point1), new Vector(point2)).coordinates;
-	}
-	
-	public static Point3d substractPoints (Point3d point1, Point3d point2){
-		return Vector.substractVectors(new Vector(point1), new Vector(point2)).coordinates;
-	}
-	
 }

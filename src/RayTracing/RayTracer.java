@@ -108,7 +108,7 @@ public class RayTracer {
 					
 					scene.addCamera(camera);
 					
-					Screen screen=camera.getScreenFromCamera(imageWidth, imageHeight);
+					Screen screen=camera.getScreenFromCamera();
 					
 					scene.addScreen(screen);
 
