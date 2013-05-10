@@ -96,25 +96,47 @@ public class RayTracer {
 
 				if (code.equals("cam"))
 				{
-                                        // Add code here to parse camera parameters
+                    // parse camera parameters
+					Camera camera=new Camera();
+					camera.setPosition(params[0], params[1], params[2]);
+					camera.setLookAtPoint(params[3], params[4], params[5]);
+					camera.setUpVector(params[6], params[7], params[8]);
+					camera.setScreenDistance(params[9]);
+					camera.setScreenWidth(params[10]);
+					
+					scn.addCamera(camera);
 
 					System.out.println(String.format("Parsed camera parameters (line %d)", lineNum));
 				}
 				else if (code.equals("set"))
 				{
-                                        // Add code here to parse general settings parameters
-
+                   //parse general settings parameters
+					Settings settings=new Settings();
+					settings.setBackgroundColor(params[0], params[1], params[2]);
+					settings.setRootNumberOfShadowRays(params[3]);
+					settings.setMaximumNumberOfRecursions(params[4]);
+					
+					scn.addSettings(settings);
+					
 					System.out.println(String.format("Parsed general settings (line %d)", lineNum));
 				}
 				else if (code.equals("mtl"))
 				{
-                                        // Add code here to parse material parameters
+                    // parse material parameters
+					Material material=new Material();
+					material.setDiffuseColor(params[0], params[1], params[2]);
+					material.setSpecularColor(params[3], params[4], params[5]);
+					material.setReflectionColor(params[6], params[7], params[8]);
+					material.setPhongSpecularityCoefficient(params[9]);
+					material.setTransparencyValue(params[10]);
+					
+					scn.addMaterial(material);
 
 					System.out.println(String.format("Parsed material (line %d)", lineNum));
 				}
 				else if (code.equals("sph"))
 				{
-                                        // Add code here to parse sphere parameters
+                    // parse sphere parameters
 
 					Sphere sphere = new Sphere();
                     sphere.setCenter(params[0], params[1], params[2]);
@@ -127,13 +149,27 @@ public class RayTracer {
 				}
 				else if (code.equals("pln"))
 				{
-                                        // Add code here to parse plane parameters
+                    //parse plane parameters
+					Plane plane = new Plane();
+					plane.setNormal(params[0], params[1], params[2]);
+					plane.setOffset(params[3]);
+					plane.setMaterialIndex(params[4]);
+					
+					scn.addPlane(plane);
 
 					System.out.println(String.format("Parsed plane (line %d)", lineNum));
 				}
 				else if (code.equals("lgt"))
 				{
-                                        // Add code here to parse light parameters
+                   //parse light parameters
+					Light light=new Light();
+					light.setPosition(params[0], params[1], params[2]);
+					light.setColor(params[3], params[4], params[5]);
+					light.setSpecularIntensity(params[6]);
+					light.setShadowIntensity(params[7]);
+					light.setRadius(params[8]);
+					
+					scn.addLight(light);
 
 					System.out.println(String.format("Parsed light (line %d)", lineNum));
 				}

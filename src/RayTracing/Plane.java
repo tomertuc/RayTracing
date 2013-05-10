@@ -9,15 +9,15 @@ public class Plane {
 		
 	}
 	
-	public void addNormal(String x, String y, String z){		
+	public void setNormal(String x, String y, String z){		
 		normal=new Vector(x, y, z);
 	}
 	
-	public void addOffset(String o){
+	public void setOffset(String o){
 		offset=Double.parseDouble(o);
 	}
 	
-	public void addMaterial(String m){
+	public void setMaterialIndex(String m){
 		materialIndex=Integer.parseInt(m);
 	}
 }

@@ -11,23 +11,23 @@ public class Light {
 		
 	}
 	
-	public void addPosition(String x, String y, String z){
+	public void setPosition(String x, String y, String z){
 		position=new Point3d(x, y, z);
 	}
 	
-	public void addColor(String r, String g, String b){
+	public void setColor(String r, String g, String b){
 		color=new Color(r, g, b);
 	}
 	
-	public void addSpecularIntensity(String spi){
+	public void setSpecularIntensity(String spi){
 		specularI=Double.parseDouble(spi);
 	}
 	
-	public void addShadowIntensity(String shi){
+	public void setShadowIntensity(String shi){
 		shadowsI=Double.parseDouble(shi);
 	}
 	
-	public void addRadius(String r){
+	public void setRadius(String r){
 		radius=Double.parseDouble(r);
 	}
 }

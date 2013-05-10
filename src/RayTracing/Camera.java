@@ -15,23 +15,23 @@ public class Camera {
 		
 	}
 	
-	public void addPosition(String x, String y, String z){
+	public void setPosition(String x, String y, String z){
 		position=new Point3d(x,y,z);
 	}
 	
-	public void addLookAtPoint(String x, String y, String z){
+	public void setLookAtPoint(String x, String y, String z){
 		lookat=new Point3d(x,y,z);
 	}
 	
-	public void addUpVector(String x, String y, String z){
+	public void setUpVector(String x, String y, String z){
 		up=new Vector(x,y,z);
 	}
 	
-	public void addScreenDistance(String d){
+	public void setScreenDistance(String d){
 		scrDist=Double.parseDouble(d);
 	}
 	
-	public void addScreenWidth(String w){
+	public void setScreenWidth(String w){
 		scrWidth=Double.parseDouble(w);
 	}
 	
