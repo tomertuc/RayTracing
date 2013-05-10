@@ -2,7 +2,7 @@ package RayTracing;
 
 public class Screen {
 
-	public Point3d origin;
+	public Vector origin;
 	public int width;
 	public int height;
 	
@@ -10,7 +10,7 @@ public class Screen {
 		
 	}
 	
-	public void setOrigin(Point3d origin){
+	public void setOrigin(Vector origin){
 		this.origin=origin;
 	}
 	

@@ -1,8 +1,8 @@
 package RayTracing;
 
 public class Camera {
-	public Point3d position;
-	public Point3d lookat;
+	public Vector position;
+	public Vector lookatpoint;
 	public Vector up;
 	public double scrDist;
 	public double scrWidth;
@@ -16,11 +16,11 @@ public class Camera {
 	}
 	
 	public void setPosition(String x, String y, String z){
-		position=new Point3d(x,y,z);
+		position=new Vector(x,y,z);
 	}
 	
 	public void setLookAtPoint(String x, String y, String z){
-		lookat=new Point3d(x,y,z);
+		lookatpoint=new Vector(x,y,z);
 	}
 	
 	public void setUpVector(String x, String y, String z){
@@ -38,7 +38,7 @@ public class Camera {
 	public void computeCoordinateSystem(){
 		//define Vx, Vy, Vz
 		//based on Views & Projections presentation, pages 1-2
-		Vector lookAtVector=Vector.substractVectors(new Vector(lookat), new Vector(position));
+		Vector lookAtVector=Vector.substractVectors(lookatpoint, position);
 		Vector w=Vector.getNormalized(lookAtVector);
 		Vector u=Vector.getNormalized(Vector.crossProductVectors(up, w));
 		Vector v=Vector.crossProductVectors(w, u);

@@ -1,7 +1,7 @@
 package RayTracing;
 
 public class Ray {
-	public Point3d origin;
+	public Vector origin;
 	public Vector direction;
 	//let P0=origin and V=direction, then ray is P=P0+tV
 	
@@ -9,12 +9,12 @@ public class Ray {
 		
 	}
 	
-	public Ray(Point3d origin, Vector direction){
+	public Ray(Vector origin, Vector direction){
 		this.origin=origin;
 		this.direction=direction;
 	}
 	
-	public void setOrigin(Point3d origin){
+	public void setOrigin(Vector origin){
 		this.origin=origin;
 	}
 	
@@ -22,7 +22,7 @@ public class Ray {
 		this.direction=direction;
 	}
 	
-	public Point3d P0(){
+	public Vector P0(){
 		return origin;
 	}
 	
