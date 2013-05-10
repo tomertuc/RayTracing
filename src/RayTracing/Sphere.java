@@ -10,11 +10,7 @@ public class Sphere {
 	}
 	
 	public void setCenter(String x, String y, String z){
-		double cx=Double.parseDouble(x);
-		double cy=Double.parseDouble(y);
-		double cz=Double.parseDouble(z);
-		
-		center=new Point3d(cx, cy, cz);
+		center=new Point3d(x, y, z);
 	}
 	
 	public void setRadius(String rad){

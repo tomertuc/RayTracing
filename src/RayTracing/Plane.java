@@ -9,12 +9,8 @@ public class Plane {
 		
 	}
 	
-	public void addNormal(String x, String y, String z){
-		double nx=Double.parseDouble(x);
-		double ny=Double.parseDouble(y);
-		double nz=Double.parseDouble(z);
-		
-		normal=new Vector(nx, ny, nz);
+	public void addNormal(String x, String y, String z){		
+		normal=new Vector(x, y, z);
 	}
 	
 	public void addOffset(String o){
