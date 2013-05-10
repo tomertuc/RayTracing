@@ -42,6 +42,8 @@ public class Sphere {
 			{
 				return -1;
 			}
+			
+			return first_result;
 		}
 		else
 		{
