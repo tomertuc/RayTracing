@@ -20,4 +20,9 @@ public class Sphere {
 	public void setMaterial(String matID){
 		materialIndex=Integer.parseInt(matID);
 	}
+	
+	public double getIntersection(Ray ray){
+		//return t
+		return 0.0;
+	}
 }

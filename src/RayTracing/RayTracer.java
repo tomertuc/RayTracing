@@ -19,7 +19,7 @@ public class RayTracer {
 
 	public int imageWidth;
 	public int imageHeight;
-	public Scene scn;
+	public Scene scene;
 
 	/**
 	 * Runs the ray tracer. Takes scene file, output image file and image size as input.
@@ -33,7 +33,7 @@ public class RayTracer {
                         // Default values:
 			tracer.imageWidth = 500;
 			tracer.imageHeight = 500;
-			tracer.scn = new Scene();
+			tracer.scene = new Scene();
 
 			if (args.length < 2)
 				throw new RayTracerException("Not enough arguments provided. Please specify an input scene file and an output image file for rendering.");
@@ -104,7 +104,13 @@ public class RayTracer {
 					camera.setScreenDistance(params[9]);
 					camera.setScreenWidth(params[10]);
 					
-					scn.addCamera(camera);
+					camera.computeCoordinateSystem();
+					
+					scene.addCamera(camera);
+					
+					Screen screen=camera.getScreenFromCamera();
+					
+					scene.addScreen(screen);
 
 					System.out.println(String.format("Parsed camera parameters (line %d)", lineNum));
 				}
@@ -116,7 +122,7 @@ public class RayTracer {
 					settings.setRootNumberOfShadowRays(params[3]);
 					settings.setMaximumNumberOfRecursions(params[4]);
 					
-					scn.addSettings(settings);
+					scene.addSettings(settings);
 					
 					System.out.println(String.format("Parsed general settings (line %d)", lineNum));
 				}
@@ -130,7 +136,7 @@ public class RayTracer {
 					material.setPhongSpecularityCoefficient(params[9]);
 					material.setTransparencyValue(params[10]);
 					
-					scn.addMaterial(material);
+					scene.addMaterial(material);
 
 					System.out.println(String.format("Parsed material (line %d)", lineNum));
 				}
@@ -143,7 +149,7 @@ public class RayTracer {
                     sphere.setRadius(params[3]);
                     sphere.setMaterial(params[4]);
                     
-                    scn.addSphere(sphere);
+                    scene.addSphere(sphere);
 
 					System.out.println(String.format("Parsed sphere (line %d)", lineNum));
 				}
@@ -155,7 +161,7 @@ public class RayTracer {
 					plane.setOffset(params[3]);
 					plane.setMaterialIndex(params[4]);
 					
-					scn.addPlane(plane);
+					scene.addPlane(plane);
 
 					System.out.println(String.format("Parsed plane (line %d)", lineNum));
 				}
@@ -169,7 +175,7 @@ public class RayTracer {
 					light.setShadowIntensity(params[7]);
 					light.setRadius(params[8]);
 					
-					scn.addLight(light);
+					scene.addLight(light);
 
 					System.out.println(String.format("Parsed light (line %d)", lineNum));
 				}

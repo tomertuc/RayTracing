@@ -20,4 +20,9 @@ public class Plane {
 	public void setMaterialIndex(String m){
 		materialIndex=Integer.parseInt(m);
 	}
+	
+	public double getIntersection(Ray ray){
+		//return t
+		return 0.0;
+	}
 }
