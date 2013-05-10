@@ -38,10 +38,10 @@ public class Camera {
 	public void computeCoordinateSystem(){
 		//define Vx, Vy, Vz
 		//based on Views & Projections presentation, pages 1-2
-		Vector lookAtVector=Vector.substractVectors(lookatpoint, position);
-		Vector w=Vector.getNormalized(lookAtVector);
-		Vector u=Vector.getNormalized(Vector.crossProductVectors(up, w));
-		Vector v=Vector.crossProductVectors(w, u);
+		Vector lookAtVector=lookatpoint.sub(position);
+		Vector w=lookAtVector.normalize();
+		Vector u=up.cross(w).normalize();
+		Vector v=w.cross(u);
 		
 		Vz=w;
 		Vy=v;
@@ -50,6 +50,21 @@ public class Camera {
 	
 	public Screen getScreenFromCamera(int imageWidth, int imageHeight){
 		//compute screen
-		return null;
+		//based on Ray Casting presentation, page 16
+		Screen screen=new Screen();
+		
+		Vector E=position;
+		double f=scrDist;
+		double w=((double)imageWidth)/2;
+		double h=((double)imageHeight)/2;
+		
+		Vector P=E.add(Vz.mul(f));
+		Vector P0=P.sub(Vx.mul(w)).sub(Vy.mul(h));
+		
+		screen.setOrigin(P0);
+		screen.setWidth(imageWidth);
+		screen.setHeight(imageHeight);
+		
+		return screen;
 	}
 }
