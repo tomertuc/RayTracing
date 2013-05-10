@@ -22,6 +22,13 @@ public class Sphere {
 	}
 	
 	public double getIntersection(Ray ray){
+		
+		double a = 1;
+		double b = dotProductVectors(Vector.multiplyVectorByScalar(ray.direction, 2), Vector.substractVectors(ray.origin, center));
+				
+		
+		
+		
 		//return t
 		return 0.0;
 	}
