@@ -19,6 +19,7 @@ public class RayTracer {
 
 	public int imageWidth;
 	public int imageHeight;
+	public Scene scn;
 
 	/**
 	 * Runs the ray tracer. Takes scene file, output image file and image size as input.
@@ -32,6 +33,7 @@ public class RayTracer {
                         // Default values:
 			tracer.imageWidth = 500;
 			tracer.imageHeight = 500;
+			tracer.scn = new Scene();
 
 			if (args.length < 2)
 				throw new RayTracerException("Not enough arguments provided. Please specify an input scene file and an output image file for rendering.");
@@ -118,6 +120,8 @@ public class RayTracer {
                     sphere.setCenter(params[0], params[1], params[2]);
                     sphere.setRadius(params[3]);
                     sphere.setMaterial(params[4]);
+                    
+                    scn.addSphere(sphere);
 
 					System.out.println(String.format("Parsed sphere (line %d)", lineNum));
 				}
@@ -144,6 +148,7 @@ public class RayTracer {
                 // for example camera settings and all necessary materials were defined.
 
 		System.out.println("Finished parsing scene file " + sceneFileName);
+		r.close();
 
 	}
 
