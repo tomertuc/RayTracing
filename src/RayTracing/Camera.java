@@ -7,9 +7,9 @@ public class Camera {
 	public double scrDist;
 	public double scrWidth;
 	
-	public Vector Vx;
-	public Vector Vy;
-	public Vector Vz;
+	public Vector Ux;
+	public Vector Uy;
+	public Vector Uz;
 	
 	public Camera(){
 		
@@ -36,16 +36,7 @@ public class Camera {
 	}
 	
 	public void computeCoordinateSystem(){
-		//define Vx, Vy, Vz
-		//based on Views & Projections presentation, pages 1-2
-		Vector lookAtVector=Vector.substractVectors(new Vector(lookat), new Vector(position));
-		Vector w=Vector.getNormalized(lookAtVector);
-		Vector u=Vector.getNormalized(Vector.crossProductVectors(up, w));
-		Vector v=Vector.crossProductVectors(w, u);
-		
-		Vz=w;
-		Vy=v;
-		Vx=u;
+		//define Ux, Uy, Uz
 	}
 	
 	public Screen getScreenFromCamera(){
