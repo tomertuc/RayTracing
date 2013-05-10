@@ -1,6 +1,6 @@
 package RayTracing;
 
-public class Plane {
+public class Plane implements ObjectPrimitive{
 	public Vector normal;
 	public double offset;
 	public int materialIndex;
