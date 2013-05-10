@@ -6,6 +6,14 @@ public class Vector {
 	public Vector(){
 		
 	}
+
+	public Vector(Point3d point){
+		coordinates = point;
+	}
+
+	public Vector(double x, double y, double z){
+		coordinates=new Point3d(x,y,z);
+	}
 	
 	public Vector(String x, String y, String z){
 		coordinates=new Point3d(x,y,z);
@@ -23,7 +31,7 @@ public class Vector {
 		return result;
 	}
 	
-	public static Vector subtractVectors (Vector firstVector, Vector secondVector){
+	public static Vector substractVectors (Vector firstVector, Vector secondVector){
 		Vector result = new Vector();
 		
 		result.coordinates.x = firstVector.coordinates.x - secondVector.coordinates.x;
@@ -62,5 +70,26 @@ public class Vector {
 		
 		return result;
 	}
+
+	public static double getSize (Vector vector) {
+		double result = 0;
+		
+		result += Math.pow(vector.coordinates.x, 2);
+		result += Math.pow(vector.coordinates.y, 2);
+		result += Math.pow(vector.coordinates.z, 2);
+		
+		return Math.sqrt(result);
+	}
+	
+	public static Vector getNormalized (Vector vector) {
+		Vector result = new Vector();
+		
+		double size = getSize(vector);
+		result.coordinates.x = result.coordinates.x / size;
+		result.coordinates.y = result.coordinates.y / size;
+		result.coordinates.z = result.coordinates.z / size;
+		
+		return result;
+	}	
 	
 }
