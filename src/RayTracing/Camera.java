@@ -1,5 +1,5 @@
 package RayTracing;
 
 public class Camera {
-	public int test;
+	public int test2;
 }
