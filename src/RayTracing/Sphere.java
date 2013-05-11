@@ -22,7 +22,7 @@ public class Sphere {
 	}
 	
 	// based on Ray Casting presentation, page 6
-	// returns t (-1 in case of no intersection)
+	// returns the closest intersection t (-1 in case of no intersection)
 	public double getIntersection(Ray ray){
 		
 		double a = 1;
@@ -31,31 +31,26 @@ public class Sphere {
 		double delta = (Math.pow(b, 2) - 4*a*c);
 		double first_result, second_result;
 		
-		if (delta < 0)
-		{
+		if (delta < 0)//no solution -> no intersection
 			return -1;
-		}
 		else if (delta == 0)
 		{
 			first_result = -b/(2*a);
-			if (first_result < 0)
-			{
+			if (first_result < 0)//if only result is negative, there's no intersection
 				return -1;
-			}
-			
-			return first_result;
+			return first_result;//if only result is non-negative, it is returned
 		}
 		else
 		{
 			first_result = (-b + Math.sqrt(delta))/(2*a);
 			second_result = (-b - Math.sqrt(delta))/(2*a);	
-			if ((first_result < 0) && (second_result < 0))
-			{
+			if ((first_result < 0) && (second_result < 0))//if both negative, there's no intersection
 				return -1;
-			}
 			else
 			{
-				return Math.max(first_result, second_result);
+				if((first_result<0) || (second_result<0))//if only one result negative, return the non-negative intersection
+					return Math.max(first_result, second_result);
+				return Math.min(first_result, second_result);//if both are non-negative, return the closest intersection
 			}
 		}
 	}
