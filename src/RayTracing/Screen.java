@@ -3,8 +3,10 @@ package RayTracing;
 public class Screen {
 
 	public Vector origin;
-	public int width;
-	public int height;
+	public int pixels_width;
+	public int pixels_height;
+	public double screen_width;
+	public double screen_height;
 	
 	public Vector Vx;
 	public Vector Vy;
@@ -24,12 +26,21 @@ public class Screen {
 		this.origin=origin;
 	}
 	
-	public void setWidth(int width){
-		this.width=width;
+	public void setPixelsWidth(int width){
+		this.pixels_width=width;
 	}
 	
-	public void setHeight(int height){
-		this.height=height;
+	public void setPixelsHeight(int height){
+		this.pixels_height=height;
+	}
+	
+	public void setScreenWidth(double width){
+		this.screen_width=width;
+	}
+	
+	public void setScreenHeight(){
+		double width_ratio=(double)screen_width/(double)pixels_width;
+		screen_height=width_ratio*pixels_height;
 	}
 	
 	public Vector getPixelPosition(double w, double h){

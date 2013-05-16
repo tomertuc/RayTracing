@@ -62,8 +62,10 @@ public class Camera {
 		Vector P0=P.sub(Vx.mul(w)).sub(Vy.mul(h));
 		
 		screen.setOrigin(P0);
-		screen.setWidth(imageWidth);
-		screen.setHeight(imageHeight);
+		screen.setPixelsWidth(imageWidth);
+		screen.setPixelsHeight(imageHeight);
+		screen.setScreenWidth(scrWidth);
+		screen.setScreenHeight();
 		
 		return screen;
 	}
