@@ -27,12 +27,12 @@ public class Scene implements Iterable<ObjectPrimitive>{
 		
 		ObjectPrimitive intersected=findClosestIntersection(ray);
 		
-		//...
+		Color c=intersected.getColorWrtIntersectedRay(ray);
 		
-		return null;
+		return c;
 	}
 	
-	public Ray getRayToPixel(int w, int h){
+	private Ray getRayToPixel(int w, int h){
 		Ray ray=new Ray();
 		Vector direction=scr.getPixelPosition(w, h).sub(cam.position);
 		ray.setDirection(direction);
@@ -40,7 +40,7 @@ public class Scene implements Iterable<ObjectPrimitive>{
 		return ray;
 	}
 	
-	public ObjectPrimitive findClosestIntersection(Ray ray){
+	private ObjectPrimitive findClosestIntersection(Ray ray){
 		double t, t_min=Double.MAX_VALUE;
 		ObjectPrimitive obj_min_intr=null;
 		for(ObjectPrimitive obj: this){

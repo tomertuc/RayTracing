@@ -1,9 +1,10 @@
 package RayTracing;
 
-public class Sphere implements ObjectPrimitive{
+public class Sphere extends ObjectPrimitive{
 	public Vector center;
 	public double radius;
 	public int materialIndex;
+	public Material material;
 	//let O=center and r=radius, then sphere is |P-O|^2-r^2=0
 	
 	public Sphere(){
@@ -18,8 +19,24 @@ public class Sphere implements ObjectPrimitive{
 		radius=Double.parseDouble(rad);
 	}
 	
-	public void setMaterial(String matID){
+	@Override
+	public void setMaterialIndex(String matID){
 		materialIndex=Integer.parseInt(matID);
+	}
+	
+	@Override
+	public int getMaterialIndex() {
+		return materialIndex;
+	}
+	
+	@Override
+	public void setMaterial(Material material) {
+		this.material=material;
+	}
+
+	@Override
+	public Material getMaterial() {
+		return material;
 	}
 	
 	// based on Ray Casting presentation, page 6

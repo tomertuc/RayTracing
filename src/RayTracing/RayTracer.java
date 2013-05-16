@@ -145,7 +145,7 @@ public class RayTracer {
 					Sphere sphere = new Sphere();
                     sphere.setCenter(params[0], params[1], params[2]);
                     sphere.setRadius(params[3]);
-                    sphere.setMaterial(params[4]);
+                    sphere.setMaterialIndex(params[4]);
                     
                     scene.addSphere(sphere);
 

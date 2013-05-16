@@ -43,7 +43,17 @@ public class Screen {
 		screen_height=width_ratio*pixels_height;
 	}
 	
+	private double convertPixelWToScreenW(int w){
+		return w*screen_width/pixels_width;
+	}
+	
+	private double convertPixelHToScreenH(int h){
+		return h*screen_height/pixels_height;
+	}
+	
 	public Vector getPixelPosition(int w, int h){
-		return origin.add(Vx.mul(w)).add(Vy.mul(h));
+		double w_on_scr=convertPixelWToScreenW(w);
+		double h_on_scr=convertPixelHToScreenH(h);
+		return origin.add(Vx.mul(w_on_scr)).add(Vy.mul(h_on_scr));
 	}
 }

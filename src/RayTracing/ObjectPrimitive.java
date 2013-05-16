@@ -1,10 +1,14 @@
 package RayTracing;
 
-public interface ObjectPrimitive {
+public abstract class ObjectPrimitive {
 	
-	public double getIntersection(Ray ray);
-	public void setMaterial(Material material);
-	public Material getMaterial();
-	public void setMaterialIndex(String matID);
-	public int getMaterialIndex();
+	abstract double getIntersection(Ray ray);
+	abstract void setMaterial(Material material);
+	abstract Material getMaterial();
+	abstract void setMaterialIndex(String matID);
+	abstract int getMaterialIndex();
+	
+	public Color getColorWrtIntersectedRay(Ray ray){
+		return null;
+	}
 }
