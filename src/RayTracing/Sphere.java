@@ -51,4 +51,9 @@ public class Sphere extends ObjectPrimitive{
 			}
 		}
 	}
+
+	@Override
+	Vector getNormalForPoint(Vector point) {
+		return point.sub(center).normalize();
+	}
 }

@@ -14,6 +14,11 @@ public class Plane extends ObjectPrimitive{
 		normal=new Vector(x, y, z);
 	}
 	
+	@Override
+	public Vector getNormalForPoint(Vector point){
+		return normal; 
+	}
+	
 	public void setOffset(String o){
 		offset=Double.parseDouble(o);
 	}
