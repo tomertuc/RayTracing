@@ -46,11 +46,13 @@ public class ColorComputation {
 	private Color getColorByIntersectedRay(ObjectPrimitive obj, Ray ray){
 		Color outputColor, diffuseColor, specularColor, illuminatedColor, reflectionColor, backgroundColor;
 		Material material=obj.getMaterial();
-		double transparency=0;
+		double transparency=material.transparencyValue;
+		
 		diffuseColor=getDiffuseColorOfObject(obj);
 		specularColor=getSpecularColorByIntersectedRay(obj, ray);
 		reflectionColor=getReflectedColorByIntersectedRay(obj, ray);
 		backgroundColor=getTransColorByIntersectedRay(obj, ray);
+		
 		illuminatedColor=Color.color(diffuseColor.add(specularColor));
 		outputColor=Color.color(backgroundColor.mul(transparency).add(illuminatedColor.mul(1-transparency)).add(reflectionColor));
 		return outputColor;
