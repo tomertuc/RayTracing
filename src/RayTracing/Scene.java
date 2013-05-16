@@ -1,6 +1,5 @@
 package RayTracing;
 
-import java.io.Console;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,19 +23,34 @@ public class Scene implements Iterable<ObjectPrimitive>{
 	
 	
 	public Color getColorOfPixel(int w, int h){
-		//construct ray
+		Ray ray=getRayToPixel(w,h);
 		
-		//find closest intersection
+		ObjectPrimitive intersected=findClosestIntersection(ray);
+		
+		//...
 		
 		return null;
 	}
 	
 	public Ray getRayToPixel(int w, int h){
-		return null;
+		Ray ray=new Ray();
+		Vector direction=scr.getPixelPosition(w, h).sub(cam.position);
+		ray.setDirection(direction);
+		ray.setOrigin(cam.position);
+		return ray;
 	}
 	
 	public ObjectPrimitive findClosestIntersection(Ray ray){
-		return null;
+		double t, t_min=Double.MAX_VALUE;
+		ObjectPrimitive obj_min_intr=null;
+		for(ObjectPrimitive obj: this){
+			t=obj.getIntersection(ray);
+			if(t<t_min){
+				t_min=t;
+				obj_min_intr=obj;
+			}
+		}
+		return obj_min_intr;
 	}
 	
 	public void addCamera(Camera cam){
@@ -56,10 +70,12 @@ public class Scene implements Iterable<ObjectPrimitive>{
 	}
 	
 	public void addSphere(Sphere sph){
+		sph.setMaterial(materials.get(sph.materialIndex-1));
 		spheres.add(sph);
 	}
 	
 	public void addPlane(Plane pln){
+		pln.setMaterial(materials.get(pln.materialIndex-1));
 		planes.add(pln);
 	}
 	
@@ -70,7 +86,44 @@ public class Scene implements Iterable<ObjectPrimitive>{
 
 	@Override
 	public Iterator<ObjectPrimitive> iterator() {
-		// TODO implement iterator over objects
-		return null;
+		Iterator<ObjectPrimitive> it=new Iterator<ObjectPrimitive>(){
+			//we first iterate over spheres and then over planes
+			
+			private int currentIndex=0;
+			
+			public boolean isCurrentInSpheres(){
+				return currentIndex<spheres.size();
+			}
+			
+			//if not in spheres - current index in planes
+			//if in spheres - returns negative
+			public int currentIndexInPlanes(){
+				return currentIndex-spheres.size();
+			}
+			
+			@Override
+			public boolean hasNext() {
+				return currentIndexInPlanes()>=planes.size();
+			}
+
+			@Override
+			public ObjectPrimitive next() {
+				if(isCurrentInSpheres())
+					return spheres.get(currentIndex++);
+				else{
+					Plane ret=planes.get(currentIndexInPlanes());
+					currentIndex++;
+					return ret;
+				}
+			}
+
+			@Override
+			public void remove() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		return it;
 	}
 }
