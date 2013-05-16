@@ -104,11 +104,11 @@ public class RayTracer {
 					camera.setScreenDistance(params[9]);
 					camera.setScreenWidth(params[10]);
 					
-					camera.computeCoordinateSystem();
-					
 					scene.addCamera(camera);
 					
 					Screen screen=camera.getScreenFromCamera(imageWidth, imageHeight);
+					
+					scene.testCamera();
 					
 					scene.addScreen(screen);
 

@@ -8,6 +8,12 @@ public class Vector {
 	public Vector(){
 		
 	}
+	
+	public Vector(Vector other){
+		this.x=other.x;
+		this.y=other.y;
+		this.z=other.z;
+	}
 
 	public Vector(double x, double y, double z){
 		this.x = x;
@@ -91,9 +97,9 @@ public class Vector {
 		Vector result = new Vector();
 		
 		double size = abs();
-		result.x = result.x / size;
-		result.y = result.y / size;
-		result.z = result.z / size;
+		result.x = this.x / size;
+		result.y = this.y / size;
+		result.z = this.z / size;
 		
 		return result;
 	}	

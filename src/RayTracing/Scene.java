@@ -1,5 +1,6 @@
 package RayTracing;
 
+import java.io.Console;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,5 +47,9 @@ public class Scene {
 	
 	public void addLight(Light lgt){
 		lights.add(lgt);
+	}
+	
+	public void testCamera(){
+		System.out.println(cam.Vx.x);
 	}
 }

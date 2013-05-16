@@ -35,7 +35,7 @@ public class Camera {
 		scrWidth=Double.parseDouble(w);
 	}
 	
-	public void computeCoordinateSystem(){
+	private void computeCoordinateSystem(){
 		//define Vx, Vy, Vz
 		//based on Views & Projections presentation, pages 1-2
 		Vector lookAtVector=lookatpoint.sub(position);
@@ -51,6 +51,7 @@ public class Camera {
 	public Screen getScreenFromCamera(int imageWidth, int imageHeight){
 		//compute screen
 		//based on Ray Casting presentation, page 16
+		this.computeCoordinateSystem();
 		Screen screen=new Screen(Vx, Vy, Vz);
 		
 		Vector E=position;
