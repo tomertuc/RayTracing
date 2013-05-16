@@ -79,7 +79,18 @@ public class ColorComputation {
 	}
 	
 	private Color getSpecularColorByIntersectedRay(ObjectPrimitive obj, Ray ray){
-		return null;
+		Color specularColor = Color.zeroColor();
+		Color materialSpecularColor = obj.material.specularColor;
+		
+		for(Light light: scene.lights){
+				
+			}
+		
+	
+		
+		
+		
+		return specularColor;
 	}
 	
 	private Color getTransColorByIntersectedRay(ObjectPrimitive obj, Ray ray) {
