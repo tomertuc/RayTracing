@@ -42,14 +42,14 @@ public class Sphere {
 		}
 		else
 		{
-			//we are here only if at least one of the results is non-negative
 			first_result = (-b + Math.sqrt(delta))/(2*a);
 			second_result = (-b - Math.sqrt(delta))/(2*a);	
 			if ((first_result < 0) && (second_result < 0))//if both negative, there's no intersection
 				return -1;
 			else
 			{
-				if((first_result<0) || (second_result<0))//if only one result negative, return the non-negative intersection
+				//we are here only if at least one of the results is non-negative
+				if((first_result<0) || (second_result<0))//if one result negative, return the non-negative intersection
 					return Math.max(first_result, second_result);
 				return Math.min(first_result, second_result);//if both are non-negative, return the closest intersection
 			}
