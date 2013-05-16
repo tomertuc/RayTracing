@@ -33,17 +33,21 @@ public class Scene implements Iterable<ObjectPrimitive>{
 	}
 	
 	private Ray getRayToPixel(int w, int h){
-		Ray ray=new Ray();
-		Vector direction=scr.getPixelPosition(w, h).sub(cam.position);
-		ray.setDirection(direction);
-		ray.setOrigin(cam.position);
-		return ray;
+		Vector startPoint=cam.position;
+		Vector toPoint=scr.getPixelPosition(w, h);
+		return Ray.getRay(startPoint, toPoint);
 	}
 	
-	private ObjectPrimitive findClosestIntersection(Ray ray){
+	public ObjectPrimitive findClosestIntersection(Ray ray){
+		return findClosestIntersection(ray, null);
+	}
+	
+	public ObjectPrimitive findClosestIntersection(Ray ray, ObjectPrimitive ignored){
 		double t, t_min=Double.MAX_VALUE;
 		ObjectPrimitive obj_min_intr=null;
 		for(ObjectPrimitive obj: this){
+			if(obj==ignored)
+				continue;
 			t=obj.getIntersection(ray);
 			if(t<t_min){
 				t_min=t;
@@ -70,11 +74,13 @@ public class Scene implements Iterable<ObjectPrimitive>{
 	}
 	
 	public void addSphere(Sphere sph){
+		sph.setScene(this);
 		sph.setMaterial(materials.get(sph.materialIndex-1));
 		spheres.add(sph);
 	}
 	
 	public void addPlane(Plane pln){
+		pln.setScene(this);
 		pln.setMaterial(materials.get(pln.materialIndex-1));
 		planes.add(pln);
 	}

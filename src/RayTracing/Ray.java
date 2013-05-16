@@ -14,6 +14,14 @@ public class Ray {
 		this.direction=direction;
 	}
 	
+	public static Ray getRay(Vector startPoint, Vector toPoint){
+		Ray ray=new Ray();
+		Vector direction=toPoint.sub(startPoint);
+		ray.setDirection(direction);
+		ray.setOrigin(startPoint);
+		return ray;
+	}
+	
 	public void setOrigin(Vector origin){
 		this.origin=origin;
 	}
