@@ -4,7 +4,6 @@ public abstract class ObjectPrimitive {
 	
 	public int materialIndex;
 	public Material material;
-	public Color diffuseColor=null;
 	
 	abstract double getIntersection(Ray ray);
 	abstract Vector getNormalForPoint(Vector point);

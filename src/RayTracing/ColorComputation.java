@@ -48,7 +48,10 @@ public class ColorComputation {
 		Material material=obj.getMaterial();
 		double transparency=material.transparencyValue;
 		
-		diffuseColor=getDiffuseColorOfObject(obj);
+		Vector point=obj.getIntersectionPoint(ray);
+		Vector normal=obj.getNormalForPoint(point);
+		
+		diffuseColor=getDiffuseColorByIntersectedRay(obj, ray, normal, point);
 		specularColor=getSpecularColorByIntersectedRay(obj, ray);
 		reflectionColor=getReflectedColorByIntersectedRay(obj, ray);
 		transColor=getTransColorByIntersectedRay(obj, ray);
@@ -58,8 +61,21 @@ public class ColorComputation {
 		return outputColor;
 	}
 
-	private Color getDiffuseColorOfObject(ObjectPrimitive obj){
-		return null;
+	private Color getDiffuseColorByIntersectedRay(ObjectPrimitive obj, Ray ray, Vector N, Vector point){
+		Material material=obj.getMaterial();
+		
+		Color surfaceDiffuse=material.diffuseColor;
+		Color lightDiffuse;
+		Color colorFromLight;
+		Color outputColor=Color.zeroColor();
+		for(Light light: scene.lights){
+			lightDiffuse=light.color;
+			Ray L=Ray.getRay(point, light.position);
+			double cos=N.dot(L.direction);
+			colorFromLight=Color.color(surfaceDiffuse.mul(lightDiffuse).mul(cos));
+			outputColor=Color.color(outputColor.add(colorFromLight));
+		}
+		return outputColor;
 	}
 	
 	private Color getSpecularColorByIntersectedRay(ObjectPrimitive obj, Ray ray){

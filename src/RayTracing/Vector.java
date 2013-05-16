@@ -82,6 +82,17 @@ public class Vector {
 		
 		return result;
 	}
+	
+	//multiply index by index
+	public Vector mul (Vector secondVector){
+		Vector result=new Vector();
+		
+		result.x=this.x*secondVector.x;
+		result.y=this.x*secondVector.y;
+		result.z=this.x*secondVector.z;
+		
+		return result;
+	}
 
 	public double abs () {
 		double result = 0;

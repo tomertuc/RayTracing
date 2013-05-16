@@ -5,13 +5,17 @@ public class Color extends Vector {
 	//x->r, y->g, z->b
 	
 	public Color(){
-		
+		x=0; y=0; z=0;
 	}
 	
 	public Color(String r, String g, String b){
 		set_r(Double.parseDouble(r));
 		set_g(Double.parseDouble(g));
 		set_b(Double.parseDouble(b));
+	}
+	
+	public static Color zeroColor(){
+		return new Color();
 	}
 	
 	public static Color color(Vector v){
