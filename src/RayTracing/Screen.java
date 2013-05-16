@@ -43,7 +43,7 @@ public class Screen {
 		screen_height=width_ratio*pixels_height;
 	}
 	
-	public Vector getPixelPosition(double w, double h){
+	public Vector getPixelPosition(int w, int h){
 		return origin.add(Vx.mul(w)).add(Vy.mul(h));
 	}
 }
