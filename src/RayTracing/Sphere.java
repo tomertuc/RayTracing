@@ -1,9 +1,10 @@
 package RayTracing;
 
-public class Sphere {
+public class Sphere implements ObjectPrimitive{
 	public Vector center;
 	public double radius;
 	public int materialIndex;
+	//let O=center and r=radius, then sphere is |P-O|^2-r^2=0
 	
 	public Sphere(){
 		
