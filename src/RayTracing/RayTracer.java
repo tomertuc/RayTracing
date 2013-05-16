@@ -108,8 +108,6 @@ public class RayTracer {
 					
 					Screen screen=camera.getScreenFromCamera(imageWidth, imageHeight);
 					
-					scene.testCamera();
-					
 					scene.addScreen(screen);
 
 					System.out.println(String.format("Parsed camera parameters (line %d)", lineNum));

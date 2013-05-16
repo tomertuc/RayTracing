@@ -1,10 +1,11 @@
 package RayTracing;
 
 import java.io.Console;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Scene {
+public class Scene implements Iterable<ObjectPrimitive>{
 	
 	public Camera cam;
 	public Screen scr;
@@ -19,6 +20,23 @@ public class Scene {
 		spheres=new LinkedList<Sphere>();
 		planes=new LinkedList<Plane>();
 		lights=new LinkedList<Light>();
+	}
+	
+	
+	public Color getColorOfPixel(int w, int h){
+		//construct ray
+		
+		//find closest intersection
+		
+		return null;
+	}
+	
+	public Ray getRayToPixel(int w, int h){
+		return null;
+	}
+	
+	public ObjectPrimitive findClosestIntersection(Ray ray){
+		return null;
 	}
 	
 	public void addCamera(Camera cam){
@@ -48,8 +66,11 @@ public class Scene {
 	public void addLight(Light lgt){
 		lights.add(lgt);
 	}
-	
-	public void testCamera(){
-		System.out.println(cam.Vx.x);
+
+
+	@Override
+	public Iterator<ObjectPrimitive> iterator() {
+		// TODO implement iterator over objects
+		return null;
 	}
 }
