@@ -22,7 +22,7 @@ public class Scene implements Iterable<ObjectPrimitive>{
 	}
 	
 	
-	public Color getColorOfPixel(int w, int h){
+	/*public Color getColorOfPixel(int w, int h){
 		Ray ray=getRayToPixel(w,h);
 		
 		ObjectPrimitive intersected=findClosestIntersection(ray);
@@ -55,7 +55,7 @@ public class Scene implements Iterable<ObjectPrimitive>{
 			}
 		}
 		return obj_min_intr;
-	}
+	}*/
 	
 	public void addCamera(Camera cam){
 		this.cam=cam;
@@ -74,13 +74,11 @@ public class Scene implements Iterable<ObjectPrimitive>{
 	}
 	
 	public void addSphere(Sphere sph){
-		sph.setScene(this);
 		sph.setMaterial(materials.get(sph.materialIndex-1));
 		spheres.add(sph);
 	}
 	
 	public void addPlane(Plane pln){
-		pln.setScene(this);
 		pln.setMaterial(materials.get(pln.materialIndex-1));
 		planes.add(pln);
 	}

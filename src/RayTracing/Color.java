@@ -1,15 +1,49 @@
 package RayTracing;
 
-public class Color {
+public class Color extends Vector {
 	
-	public double r;
-	public double g;
-	public double b;
+	//x->r, y->g, z->b
+	
+	public Color(){
+		
+	}
 	
 	public Color(String r, String g, String b){
-		this.r = Double.parseDouble(r);
-		this.g = Double.parseDouble(g);
-		this.b = Double.parseDouble(b);
+		set_r(Double.parseDouble(r));
+		set_g(Double.parseDouble(g));
+		set_b(Double.parseDouble(b));
+	}
+	
+	public static Color color(Vector v){
+		Color c=new Color();
+		c.set_r(v.x);
+		c.set_g(v.y);
+		c.set_b(v.z);
+		return c;
+	}
+	
+	public double r(){
+		return x;
+	}
+	
+	public double g(){
+		return y;
+	}
+	
+	public double b(){
+		return z;
+	}
+	
+	private void set_r(double r){
+		x=r;
+	}
+	
+	private void set_g(double g){
+		y=g;
+	}
+	
+	private void set_b(double b){
+		z=b;
 	}
 
 }

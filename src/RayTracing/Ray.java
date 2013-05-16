@@ -22,6 +22,10 @@ public class Ray {
 		return ray;
 	}
 	
+	public Vector get_t_on_ray(double t){
+		return origin.add(direction.mul(t));
+	}
+	
 	public void setOrigin(Vector origin){
 		this.origin=origin;
 	}

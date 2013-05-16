@@ -4,7 +4,7 @@ public abstract class ObjectPrimitive {
 	
 	public int materialIndex;
 	public Material material;
-	public Scene scene;
+	public Color diffuseColor=null;
 	
 	abstract double getIntersection(Ray ray);
 	
@@ -24,15 +24,8 @@ public abstract class ObjectPrimitive {
 		return material;
 	}
 	
-	public void setScene(Scene scene){
-		this.scene=scene;
-	}
-	
-	public Scene getScene(){
-		return scene;
-	}
-	
-	public Color getColorWrtIntersectedRay(Ray ray){
-		return null;
+	public Vector getIntersectionPoint(Ray ray){
+		double t=getIntersection(ray);
+		return ray.get_t_on_ray(t);
 	}
 }
