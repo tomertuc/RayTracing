@@ -42,6 +42,7 @@ public class Sphere {
 		}
 		else
 		{
+			//we are here only if at least one of the results is non-negative
 			first_result = (-b + Math.sqrt(delta))/(2*a);
 			second_result = (-b - Math.sqrt(delta))/(2*a);	
 			if ((first_result < 0) && (second_result < 0))//if both negative, there's no intersection
