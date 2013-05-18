@@ -16,7 +16,7 @@ public class Ray {
 	
 	public static Ray getRay(Vector startPoint, Vector toPoint){
 		Ray ray=new Ray();
-		Vector direction=toPoint.sub(startPoint);
+		Vector direction=toPoint.sub(startPoint).normalize();
 		ray.setDirection(direction);
 		ray.setOrigin(startPoint);
 		return ray;
