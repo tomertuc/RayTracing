@@ -88,7 +88,7 @@ public class ColorComputation {
 		for(Light light: scene.lights){
 			lightDiffuse=light.color;
 			Ray L=LRays.get(light);
-			double cos=Math.abs(N.dot(L.direction));
+			double cos=Math.abs(N.normalize().dot(L.direction.normalize()));
 			colorFromLight=Color.color(surfaceDiffuse.mul(lightDiffuse).mul(cos));
 			diffuseForLights.put(light, colorFromLight);
 		}
@@ -105,7 +105,7 @@ public class ColorComputation {
 			lightSpecular=Color.color(light.color.mul(light.specularI));
 			Ray L=LRays.get(light);
 			Ray R=Ray.getReflectedRay(N, L.direction, point);
-			double cos=Math.abs(R.direction.dot(V.direction));
+			double cos=Math.abs(R.direction.normalize().dot(V.direction.normalize()));
 			colorFromLight=Color.color(surfaceSpecular.mul(lightSpecular).mul(cos));
 			specularForLights.put(light, colorFromLight);
 		}

@@ -60,12 +60,9 @@ public class Vector {
 	public double dot (Vector secondVector){
 		double result = 0;
 		
-		Vector first=this.normalize();
-		Vector second=secondVector.normalize();
-		
-		result += first.x * second.x;
-		result += first.y * second.y;
-		result += first.z * second.z;
+		result += this.x * secondVector.x;
+		result += this.y * secondVector.y;
+		result += this.z * secondVector.z;
 		
 		return result;
 	}	
@@ -115,6 +112,8 @@ public class Vector {
 		Vector result = new Vector();
 		
 		double size = abs();
+		if(size==0)
+			return this;
 		result.x = this.x / size;
 		result.y = this.y / size;
 		result.z = this.z / size;
