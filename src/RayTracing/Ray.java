@@ -26,6 +26,16 @@ public class Ray {
 		return origin.add(direction.mul(t));
 	}
 	
+	public static Ray getReflectedRay(Vector normal, Vector hittingRay, Vector hittingPoint){
+		Vector L=hittingRay;
+		Vector N=normal;
+		Vector direction=N.mul(2*L.dot(N)).sub(L);
+		Ray r=new Ray();
+		r.setDirection(direction);
+		r.setOrigin(hittingPoint);
+		return r;
+	}
+	
 	public void setOrigin(Vector origin){
 		this.origin=origin;
 	}

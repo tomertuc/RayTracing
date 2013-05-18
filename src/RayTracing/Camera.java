@@ -53,20 +53,20 @@ public class Camera {
 		//based on Ray Casting presentation, page 16
 		this.computeCoordinateSystem();
 		Screen screen=new Screen(Vx, Vy, Vz);
+		screen.setPixelsWidth(imageWidth);
+		screen.setPixelsHeight(imageHeight);
+		screen.setScreenWidth(scrWidth);
+		screen.setScreenHeight();
 		
 		Vector E=position;
 		double f=scrDist;
-		double w=((double)imageWidth)/2;
-		double h=((double)imageHeight)/2;
+		double w=(screen.screen_width)/2;
+		double h=(screen.screen_height)/2;
 		
 		Vector P=E.add(Vz.mul(f));
 		Vector P0=P.sub(Vx.mul(w)).sub(Vy.mul(h));
 		
 		screen.setOrigin(P0);
-		screen.setPixelsWidth(imageWidth);
-		screen.setPixelsHeight(imageHeight);
-		screen.setScreenWidth(scrWidth);
-		screen.setScreenHeight();
 		
 		return screen;
 	}

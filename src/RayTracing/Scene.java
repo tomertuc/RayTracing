@@ -107,7 +107,7 @@ public class Scene implements Iterable<ObjectPrimitive>{
 			
 			@Override
 			public boolean hasNext() {
-				return currentIndexInPlanes()>=planes.size();
+				return currentIndexInPlanes()<planes.size();
 			}
 
 			@Override

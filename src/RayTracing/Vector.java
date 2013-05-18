@@ -31,6 +31,10 @@ public class Vector {
 		this.z=vz;
 	}
 	
+	public boolean isEqual(Vector other){
+		return x==other.x && y==other.y && z==other.z;
+	}
+	
 	// Here are some functions that do operations on vectors:
 	
 	public Vector add (Vector secondVector){
@@ -56,9 +60,12 @@ public class Vector {
 	public double dot (Vector secondVector){
 		double result = 0;
 		
-		result += this.x * secondVector.x;
-		result += this.y * secondVector.y;
-		result += this.z * secondVector.z;
+		Vector first=this.normalize();
+		Vector second=secondVector.normalize();
+		
+		result += first.x * second.x;
+		result += first.y * second.y;
+		result += first.z * second.z;
 		
 		return result;
 	}	
@@ -67,7 +74,7 @@ public class Vector {
 		Vector result = new Vector();
 		
 		result.x = (this.y * secondVector.z) - (this.z * secondVector.y);
-		result.y = (this.x * secondVector.z) - (this.z * secondVector.x);
+		result.y = (this.z * secondVector.x) - (this.x * secondVector.z);
 		result.z = (this.x * secondVector.y) - (this.y * secondVector.x);
 		
 		return result;

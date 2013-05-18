@@ -49,5 +49,27 @@ public class Color extends Vector {
 	private void set_b(double b){
 		z=b;
 	}
+	
+	/*public Color add(Color c2){
+		return Color.color(((Vector)this).add(c2));
+	}
+	
+	public Color mul(double coeff){
+		return Color.color(((Vector)this).mul(coeff));
+	}
+	
+	public Color mul(Color c2){
+		return Color.color(((Vector)this).mul(c2));
+	}
+	
+	public Color sub(Color c2){
+		return Color.color(((Vector)this).sub(c2));
+	}*/
+	
+	public static byte colorComponentToByte(double c){
+		if(c>1)
+			c=1;
+		return (byte)Math.round(c*255);
+	}
 
 }

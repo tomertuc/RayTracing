@@ -17,11 +17,18 @@ public class Sphere extends ObjectPrimitive{
 		radius=Double.parseDouble(rad);
 	}
 	
+	public double getIntersection(Ray ray){
+		double ret=getIntersectio(ray);
+		if(ret!=-1)
+			System.out.println("Hello\n");
+		return ret;
+	}
+	
 	// based on Ray Casting presentation, page 6
 	// returns the closest intersection t (-1 in case of no intersection)
-	public double getIntersection(Ray ray){
+	public double getIntersectio(Ray ray){
 		
-		double a = 1;
+		double a = Math.pow(ray.direction.abs(), 2);
 		double b = ray.direction.mul(2).dot(ray.origin.sub(center));
 		double c = Math.pow(ray.origin.sub(center).abs(), 2) - Math.pow(radius, 2);
 		double delta = (Math.pow(b, 2) - 4*a*c);

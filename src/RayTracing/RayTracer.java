@@ -211,7 +211,17 @@ public class RayTracer {
                 //             blue component is in rgbData[(y * this.imageWidth + x) * 3 + 2]
                 //
                 // Each of the red, green and blue components should be a byte, i.e. 0-255
-
+		
+		ColorComputation cc=new ColorComputation(scene);
+		for(int x=0; x<imageWidth; x++){
+			for(int y=0; y<imageHeight; y++){
+				Color c=cc.getColorOfPixel(x, y);
+				rgbData[(y*imageWidth+x)*3]=Color.colorComponentToByte(c.r());
+				rgbData[(y*imageWidth+x)*3+1]=Color.colorComponentToByte(c.g());
+				rgbData[(y*imageWidth+x)*3+2]=Color.colorComponentToByte(c.b());
+				System.out.println("Finished rendering (x,y)=("+x+","+y+") out of width="+imageWidth+" and height="+imageHeight+"\n");
+			}
+		}
 
 		long endTime = System.currentTimeMillis();
 		Long renderTime = endTime - startTime;
