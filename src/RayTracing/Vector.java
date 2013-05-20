@@ -31,6 +31,12 @@ public class Vector {
 		this.z=vz;
 	}
 	
+	public void setVector(Vector other){
+		this.x=other.x;
+		this.y=other.y;
+		this.z=other.z;
+	}
+	
 	public boolean isEqual(Vector other){
 		return x==other.x && y==other.y && z==other.z;
 	}
@@ -92,8 +98,8 @@ public class Vector {
 		Vector result=new Vector();
 		
 		result.x=this.x*secondVector.x;
-		result.y=this.x*secondVector.y;
-		result.z=this.x*secondVector.z;
+		result.y=this.y*secondVector.y;
+		result.z=this.z*secondVector.z;
 		
 		return result;
 	}

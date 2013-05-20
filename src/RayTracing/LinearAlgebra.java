@@ -37,6 +37,8 @@ public class LinearAlgebra {
 		v1=v1.normalize();
 		v2=v2.sub(proj(v1,v2));
 		v2=v2.normalize();
+		result1.setVector(v1);
+		result2.setVector(v2);
 	}
 	
 	private static Vector proj(Vector u, Vector v){

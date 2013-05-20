@@ -9,6 +9,10 @@ public class Sphere extends ObjectPrimitive{
 		
 	}
 	
+	public String getType(){
+		return "sphere";
+	}
+	
 	public void setCenter(String x, String y, String z){
 		center=new Vector(x, y, z);
 	}

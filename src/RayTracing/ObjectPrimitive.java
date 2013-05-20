@@ -7,6 +7,7 @@ public abstract class ObjectPrimitive {
 	
 	abstract double getIntersection(Ray ray);
 	abstract Vector getNormalForPoint(Vector point);
+	abstract String getType();
 	
 	public void setMaterialIndex(String matID){
 		materialIndex=Integer.parseInt(matID);

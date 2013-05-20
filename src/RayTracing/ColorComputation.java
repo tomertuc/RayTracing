@@ -98,7 +98,7 @@ public class ColorComputation {
 			Map<Light, Color> specularForLights, Map<Light, Ray> LRays){
 		Material material=obj.getMaterial();
 		
-		Color surfaceSpecular=Color.color(material.specularColor.mul(material.phongSpecularityCoefficient));//TODO is this really the formula
+		Color surfaceSpecular=material.specularColor;
 		Color lightSpecular;
 		Color colorFromLight;
 		for(Light light: scene.lights){
@@ -106,7 +106,7 @@ public class ColorComputation {
 			Ray L=LRays.get(light);
 			Ray R=Ray.getReflectedRay(N, L.direction, point);
 			double cos=Math.abs(R.direction.dot(V.direction));
-			colorFromLight=Color.color(surfaceSpecular.mul(lightSpecular).mul(cos));
+			colorFromLight=Color.color(surfaceSpecular.mul(lightSpecular).mul(Math.pow(cos, material.phongSpecularityCoefficient)));
 			specularForLights.put(light, colorFromLight);
 		}
 	}
@@ -139,14 +139,14 @@ public class ColorComputation {
 	}
 
 	private double precentageOfReturnedRays(Light light, Ray lightToObject, Vector objPoint, ObjectPrimitive obj) {
-		double widthOfPlane=light.radius;
+		double widthOfPlane=light.radius/100;//TODO is it the right number
 		double iterationWidth=scene.setts.rootNumberOfShadowRays;
 		double stepSize=widthOfPlane/iterationWidth;
 		Vector center=light.position;
 		Vector v=new Vector();
 		Vector u=new Vector();
 		LinearAlgebra.getPerpendicularPlane(v, u, center, lightToObject.direction);
-		Vector corner=center.sub(v.mul(widthOfPlane/2)).sub(v.mul(widthOfPlane/2));
+		Vector corner=center.sub(v.mul(widthOfPlane/2)).sub(u.mul(widthOfPlane/2));
 		double horizontalDistance=0, verticalDistance=0;
 		boolean doesItHit=false;
 		double hittingRays=0;
@@ -158,13 +158,8 @@ public class ColorComputation {
 				Vector randomPointInCell=lowerLeftCornerOfCell.add(u.mul(randomHstep)).add(v.mul(randomVstep));
 				Ray toObj=Ray.getRay(randomPointInCell, objPoint);
 				ObjectPrimitive potentiallyShadowingObj=findClosestIntersection(toObj);
-				Vector intersectionPoint;
 				if(potentiallyShadowingObj!=null && potentiallyShadowingObj.equals(obj)){
-					double t=potentiallyShadowingObj.getIntersection(toObj);
-					intersectionPoint=toObj.get_t_on_ray(t);
-					if(intersectionPoint.isEqual(objPoint))
-						doesItHit=true;
-					doesItHit=true;//TODO checking
+					doesItHit=true;
 				}
 				if(doesItHit)
 					hittingRays++;

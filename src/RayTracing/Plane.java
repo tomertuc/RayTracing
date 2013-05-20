@@ -10,6 +10,10 @@ public class Plane extends ObjectPrimitive{
 		
 	}
 	
+	public String getType(){
+		return "plane";
+	}
+	
 	public void setNormal(String x, String y, String z){		
 		normal=new Vector(x, y, z);
 	}
