@@ -27,7 +27,7 @@ public class LinearAlgebra {
 		//nx(x-x0) + ny(y-y0) + nz(z-z0) = 0
 		double nx=perpen.x; double ny=perpen.y; double nz=perpen.z;
 		double x0=point.x; double y0=point.y; double z0=point.z;
-		return (nx*(x-x0)+ny*(y-y0))/nz + z0;
+		return -(nx*(x-x0)+ny*(y-y0))/nz + z0;
 	}
 	
 	private static void gramSchmidt(Vector result1, Vector result2, Vector b1, Vector b2) {

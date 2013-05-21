@@ -139,7 +139,7 @@ public class ColorComputation {
 	}
 
 	private double precentageOfReturnedRays(Light light, Ray lightToObject, Vector objPoint, ObjectPrimitive obj) {
-		double widthOfPlane=light.radius/100;//TODO is it the right number
+		double widthOfPlane=light.radius;//TODO is it the right number
 		double iterationWidth=scene.setts.rootNumberOfShadowRays;
 		double stepSize=widthOfPlane/iterationWidth;
 		Vector center=light.position;
@@ -152,6 +152,8 @@ public class ColorComputation {
 		double hittingRays=0;
 		for(int i=0; i<iterationWidth; i++){
 			for(int j=0; j<iterationWidth; j++){
+				if(obj.getType()=="sphere")
+					hittingRays+=0;
 				Vector lowerLeftCornerOfCell=corner.add(u.mul(horizontalDistance)).add(v.mul(verticalDistance));
 				double randomHstep=random()*stepSize;
 				double randomVstep=random()*stepSize;
