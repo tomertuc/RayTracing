@@ -4,7 +4,7 @@ public class Plane extends ObjectPrimitive{
 	public Vector normal;
 	public double offset;
 	public Scene scene;
-	//let N=normal and d=offset, then plane is P*N + d = 0
+	//let N=normal and d=offset, then plane is P*N - d = 0
 	
 	public Plane(){
 		
@@ -31,7 +31,7 @@ public class Plane extends ObjectPrimitive{
 	// returns the closest intersection t (-1 in case of no intersection)	
 	public double getIntersection(Ray ray){
 	
-			double t = -(ray.origin.dot(normal) + offset) / (ray.direction.dot(normal));
+			double t = -(ray.origin.dot(normal) - offset) / (ray.direction.dot(normal));
 			
 			if (t < 0)
 			{

@@ -220,6 +220,12 @@ public class RayTracer {
 				rgbData[(y*imageWidth+x)*3+1]=Color.colorComponentToByte(c.g());
 				rgbData[(y*imageWidth+x)*3+2]=Color.colorComponentToByte(c.b());
 				System.out.println("Finished rendering (x,y)=("+x+","+y+") out of width="+imageWidth+" and height="+imageHeight+"\n");
+				/*try {
+					Runtime.getRuntime().exec("cmd /c cls");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
 			}
 		}
 

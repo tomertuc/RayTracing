@@ -44,7 +44,7 @@ public class Camera {
 		Vector v=w.cross(u);
 		
 		Vz=w;
-		Vy=v;
+		Vy=v.mul(-1);
 		Vx=u;
 	}
 	
