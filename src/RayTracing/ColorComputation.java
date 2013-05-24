@@ -166,9 +166,10 @@ public class ColorComputation {
 				if(doesItHit)
 					hittingRays++;
 				horizontalDistance+=stepSize;
-				verticalDistance+=stepSize;
 				doesItHit=false;
 			}
+			verticalDistance+=stepSize;
+			horizontalDistance=0;
 		}
 		return hittingRays/(iterationWidth*iterationWidth);
 	}
