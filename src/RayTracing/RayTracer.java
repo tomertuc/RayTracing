@@ -263,6 +263,7 @@ public class RayTracer {
                 // Each of the red, green and blue components should be a byte, i.e. 0-255
 		
 		ColorComputation cc=new ColorComputation(scene);
+		long precentsPrevious=-1;
 		for(int x=0; x<imageWidth; x++){
 			for(int y=0; y<imageHeight; y++){
 				Color c=cc.getColorOfPixel(x, y);
@@ -279,15 +280,16 @@ public class RayTracer {
 				if(timeLeft==0)
 					timeLeft=0;
 				//System.out.println("Estimated time to finish: " + timeLeft + " seconds");
-				System.out.println("Precents complete: " + Math.round(100*iters/(imageWidth*imageHeight)));
+				long precents=Math.round(100*iters/(imageWidth*imageHeight));
+				if(precents>precentsPrevious)
+					System.out.println("Precents complete: " + precents);
+				precentsPrevious=precents;
 				/*try {
 					Runtime.getRuntime().exec("cmd /c cls");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}*/
-				for(int k=0; k<100; k++)
-					System.out.println();
 			}
 		}
 
