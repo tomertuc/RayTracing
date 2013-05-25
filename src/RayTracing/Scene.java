@@ -74,17 +74,23 @@ public class Scene implements Iterable<ObjectPrimitive>{
 	}
 	
 	public void addSphere(Sphere sph){
-		sph.setMaterial(materials.get(sph.materialIndex-1));
+		//sph.setMaterial(materials.get(sph.materialIndex-1));
 		spheres.add(sph);
 	}
 	
 	public void addPlane(Plane pln){
-		pln.setMaterial(materials.get(pln.materialIndex-1));
+		//pln.setMaterial(materials.get(pln.materialIndex-1));
 		planes.add(pln);
 	}
 	
 	public void addLight(Light lgt){
 		lights.add(lgt);
+	}
+	
+	public void setMaterials(){
+		for(ObjectPrimitive obj: this){
+			obj.setMaterial(materials.get(obj.materialIndex-1));
+		}
 	}
 
 

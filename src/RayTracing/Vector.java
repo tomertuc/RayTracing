@@ -38,10 +38,14 @@ public class Vector {
 	}
 	
 	public boolean isEqual(Vector other){
-		return x==other.x && y==other.y && z==other.z;
+		return this.distance(other)<0.00001;
 	}
 	
 	// Here are some functions that do operations on vectors:
+	
+	public double distance(Vector p2){
+		return this.sub(p2).abs();
+	}
 	
 	public Vector add (Vector secondVector){
 		Vector result = new Vector();

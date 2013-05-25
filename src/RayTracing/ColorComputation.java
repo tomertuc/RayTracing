@@ -73,6 +73,13 @@ public class ColorComputation {
 		
 		illuminatedColor=getIlluminatedFromDiffsAndSpecs_plusShadowing(diffuseColorsFromLights, specularColorsFromLights, point, obj);
 		
+		double IV=-1 * ray.direction.dot(normal);
+		double MI=material.incidence;
+		if(material.isTransparent())
+				transColor=Color.color(transColor.mul((1-MI) + MI*IV));
+		if(material.isReflective())
+				reflectionColor=Color.color(reflectionColor.mul((1-MI)+MI*(1-IV)));
+		
 		//illuminatedColor=diffuseColor.add(specularColor);
 		outputColor=Color.color(transColor.mul(transparency).add(illuminatedColor.mul(1-transparency)).add(reflectionColor));
 		return outputColor;
@@ -125,9 +132,13 @@ public class ColorComputation {
 	}
 
 	private Color getReflectedColor(ObjectPrimitive obj, Ray ray, Vector N, Vector point, int recs) {
-		Ray R=Ray.getReflectedRay(N, ray.direction.mul(-1), point);
-		ObjectPrimitive refObj=findClosestIntersection(R, obj);
-		return Color.color(getColorByIntersectedRay(refObj, R, recs-1).mul(obj.material.reflectionColor));
+		if(obj.getMaterial().isReflective()){
+			Ray R=Ray.getReflectedRay(N, ray.direction.mul(-1), point);
+			ObjectPrimitive refObj=findClosestIntersection(R, obj);
+			return Color.color(getColorByIntersectedRay(refObj, R, recs-1).mul(obj.material.reflectionColor));
+		}
+		else
+			return Color.zeroColor();
 	}
 	
 	private Color getIlluminatedFromDiffsAndSpecs_plusShadowing(Map<Light, Color> diffs, Map<Light, Color> specs, Vector point, ObjectPrimitive obj) {
@@ -155,7 +166,13 @@ public class ColorComputation {
 		Vector center=light.position;
 		Vector v=new Vector();
 		Vector u=new Vector();
-		LinearAlgebra.getPerpendicularPlane(v, u, center, lightToObject.direction);
+		//LinearAlgebra.getPerpendicularPlane(v, u, center, lightToObject.direction);
+        if (lightToObject.direction.x == 0)
+            u = new Vector(1, 0, 0);
+        else
+            u = new Vector(-lightToObject.direction.y / lightToObject.direction.x, 1, 0).normalize();
+        
+        v = lightToObject.direction.cross(u).normalize();
 		Vector corner=center.sub(v.mul(widthOfPlane/2)).sub(u.mul(widthOfPlane/2));
 		double horizontalDistance=0, verticalDistance=0;
 		boolean doesItHit=false;
@@ -168,8 +185,10 @@ public class ColorComputation {
 				Vector randomPointInCell=lowerLeftCornerOfCell.add(u.mul(randomHstep)).add(v.mul(randomVstep));
 				Ray toObj=Ray.getRay(randomPointInCell, objPoint);
 				ObjectPrimitive potentiallyShadowingObj=findClosestIntersection(toObj);
-				if(potentiallyShadowingObj!=null && potentiallyShadowingObj.equals(obj)){
-					doesItHit=true;
+				if(potentiallyShadowingObj!=null){
+					Vector hittingPoint=potentiallyShadowingObj.getIntersectionPoint(toObj);
+					if(hittingPoint.isEqual(objPoint))
+						doesItHit=true;
 				}
 				hittingRays+=doesItHit?1:1-light.shadowsI;
 				horizontalDistance+=stepSize;

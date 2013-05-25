@@ -183,6 +183,10 @@ public class RayTracer {
 					material.setReflectionColor(params[6], params[7], params[8]);
 					material.setPhongSpecularityCoefficient(params[9]);
 					material.setTransparencyValue(params[10]);
+					if(params.length>=12)
+						material.setIncidence(params[11]);
+					else
+						material.setIncidence("0");
 					
 					scene.addMaterial(material);
 
@@ -233,7 +237,7 @@ public class RayTracer {
 				}
 			}
 		}
-
+		scene.setMaterials();
                 // It is recommended that you check here that the scene is valid,
                 // for example camera settings and all necessary materials were defined.
 

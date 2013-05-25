@@ -6,6 +6,7 @@ public class Material {
 	public Color reflectionColor;
 	public double phongSpecularityCoefficient;
 	public double transparencyValue;
+	public double incidence;
 	
 	public Material(){
 		
@@ -32,8 +33,16 @@ public class Material {
 		transparencyValue=Double.parseDouble(transpVal);
 	}
 	
+	public void setIncidence(String incVal){
+		incidence=Double.parseDouble(incVal);
+	}
+	
 	public boolean isTransparent(){
 		return transparencyValue!=0;
+	}
+	
+	public boolean isReflective(){
+		return !reflectionColor.isEqual(Color.zeroColor());
 	}
 
 }
