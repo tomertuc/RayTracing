@@ -29,7 +29,7 @@ public class Ray {
 	public static Ray getReflectedRay(Vector normal, Vector hittingRay, Vector hittingPoint){
 		Vector L=hittingRay;
 		Vector N=normal;
-		Vector direction=N.mul(2*L.dot(N)).sub(L);
+		Vector direction=N.mul(2*L.dot(N)).sub(L).normalize();
 		Ray r=new Ray();
 		r.setDirection(direction);
 		r.setOrigin(hittingPoint);

@@ -149,7 +149,7 @@ public class ColorComputation {
 			Ray lightToObject=Ray.getRay(light.position, point);
 			double raysPrecent=precentageOfReturnedRays(light, lightToObject, point, obj);
 			Color fromThisLight;
-			/*if(raysPrecent==1)
+			if(raysPrecent==1)
 				fromThisLight=light_illum;//TODO is this the real formula
 			else
 				fromThisLight=Color.color(light_illum.mul(shadowCoeff*raysPrecent));//TODO is this the real formula*/
@@ -190,7 +190,7 @@ public class ColorComputation {
 					if(hittingPoint.isEqual(objPoint))
 						doesItHit=true;
 				}
-				hittingRays+=doesItHit?1:1-light.shadowsI;
+				hittingRays+=doesItHit?1:0;//1-light.shadowsI;
 				horizontalDistance+=stepSize;
 				doesItHit=false;
 			}
