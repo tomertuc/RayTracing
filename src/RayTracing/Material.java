@@ -30,6 +30,10 @@ public class Material {
 	
 	public void setTransparencyValue(String transpVal){
 		transparencyValue=Double.parseDouble(transpVal);
-	}	
+	}
+	
+	public boolean isTransparent(){
+		return transparencyValue!=0;
+	}
 
 }

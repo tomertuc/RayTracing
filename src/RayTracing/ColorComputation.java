@@ -17,7 +17,7 @@ public class ColorComputation {
 		
 		ObjectPrimitive intersected=findClosestIntersection(ray);
 		
-		Color c=getColorByIntersectedRay(intersected, ray);
+		Color c=getColorByIntersectedRay(intersected, ray, scene.setts.maximumNumberOfRecursions);
 		
 		return c;
 	}
@@ -49,8 +49,8 @@ public class ColorComputation {
 		return obj_min_intr;
 	}
 	
-	private Color getColorByIntersectedRay(ObjectPrimitive obj, Ray ray){
-		if(obj==null)
+	private Color getColorByIntersectedRay(ObjectPrimitive obj, Ray ray, int recursionsToGo){
+		if(obj==null || recursionsToGo==0)
 			return scene.setts.backgroundColor;
 		Color outputColor, illuminatedColor, reflectionColor, transColor;
 		Material material=obj.getMaterial();
@@ -68,8 +68,8 @@ public class ColorComputation {
 		
 		getDiffuseColors(obj, ray, normal, point, diffuseColorsFromLights, LRaysForLights);
 		getSpecularColors(obj, ray, normal, point, specularColorsFromLights, LRaysForLights);
-		reflectionColor=getReflectedColor(obj, ray, normal, point);
-		transColor=getTransColor(obj, ray, normal, point);
+		reflectionColor=getReflectedColor(obj, ray, normal, point, recursionsToGo);
+		transColor=getTransColor(obj, ray, normal, point, recursionsToGo);
 		
 		illuminatedColor=getIlluminatedFromDiffsAndSpecs_plusShadowing(diffuseColorsFromLights, specularColorsFromLights, point, obj);
 		
@@ -88,13 +88,13 @@ public class ColorComputation {
 		for(Light light: scene.lights){
 			lightDiffuse=light.color;
 			Ray L=LRays.get(light);
-			double cos=Math.abs(N.dot(L.direction));
-			colorFromLight=Color.color(surfaceDiffuse.mul(lightDiffuse).mul(cos));
+			double cos=N.dot(L.direction);
+			colorFromLight=cos<=0 ? Color.black() : Color.color(surfaceDiffuse.mul(lightDiffuse).mul(cos));
 			diffuseForLights.put(light, colorFromLight);
 		}
 	}
 	
-	private void getSpecularColors(ObjectPrimitive obj, Ray V, Vector N, Vector point,
+	private void getSpecularColors(ObjectPrimitive obj, Ray ray, Vector N, Vector point,
 			Map<Light, Color> specularForLights, Map<Light, Ray> LRays){
 		Material material=obj.getMaterial();
 		
@@ -105,20 +105,29 @@ public class ColorComputation {
 			lightSpecular=Color.color(light.color.mul(light.specularI));
 			Ray L=LRays.get(light);
 			Ray R=Ray.getReflectedRay(N, L.direction, point);
-			double cos=Math.abs(R.direction.dot(V.direction));
-			colorFromLight=Color.color(surfaceSpecular.mul(lightSpecular).mul(Math.pow(cos, material.phongSpecularityCoefficient)));
+			double cos=R.direction.dot(ray.direction.mul(-1));
+			colorFromLight=cos<=0 ? Color.black() : Color.color(surfaceSpecular.mul(lightSpecular).mul(Math.pow(cos, material.phongSpecularityCoefficient)));
 			specularForLights.put(light, colorFromLight);
 		}
 	}
 	
-	private Color getTransColor(ObjectPrimitive obj, Ray ray, Vector N, Vector point) {
-		// TODO Auto-generated method stub
-		return Color.zeroColor();
+	private Color getTransColor(ObjectPrimitive obj, Ray ray, Vector N, Vector point, int recs) {
+		if(obj.getMaterial().isTransparent())
+		{
+			Ray transRay=new Ray();
+			transRay.setOrigin(point);
+			transRay.setDirection(ray.direction);
+			ObjectPrimitive transObj=findClosestIntersection(transRay, obj);
+			return Color.color(getColorByIntersectedRay(transObj, transRay, recs-1));
+		}
+		else
+			return Color.zeroColor();
 	}
 
-	private Color getReflectedColor(ObjectPrimitive obj, Ray ray, Vector N, Vector point) {
-		// TODO Auto-generated method stub
-		return Color.zeroColor();
+	private Color getReflectedColor(ObjectPrimitive obj, Ray ray, Vector N, Vector point, int recs) {
+		Ray R=Ray.getReflectedRay(N, ray.direction.mul(-1), point);
+		ObjectPrimitive refObj=findClosestIntersection(R, obj);
+		return Color.color(getColorByIntersectedRay(refObj, R, recs-1).mul(obj.material.reflectionColor));
 	}
 	
 	private Color getIlluminatedFromDiffsAndSpecs_plusShadowing(Map<Light, Color> diffs, Map<Light, Color> specs, Vector point, ObjectPrimitive obj) {
@@ -140,7 +149,7 @@ public class ColorComputation {
 	}
 
 	private double precentageOfReturnedRays(Light light, Ray lightToObject, Vector objPoint, ObjectPrimitive obj) {
-		double widthOfPlane=light.radius;//TODO is it the right number
+		double widthOfPlane=light.radius;
 		double iterationWidth=scene.setts.rootNumberOfShadowRays;
 		double stepSize=widthOfPlane/iterationWidth;
 		Vector center=light.position;
@@ -153,8 +162,6 @@ public class ColorComputation {
 		double hittingRays=0;
 		for(int i=0; i<iterationWidth; i++){
 			for(int j=0; j<iterationWidth; j++){
-				if(obj.getType()=="sphere")
-					hittingRays+=0;
 				Vector lowerLeftCornerOfCell=corner.add(u.mul(horizontalDistance)).add(v.mul(verticalDistance));
 				double randomHstep=random()*stepSize;
 				double randomVstep=random()*stepSize;

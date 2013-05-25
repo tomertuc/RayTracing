@@ -18,6 +18,10 @@ public class Color extends Vector {
 		return new Color();
 	}
 	
+	public static Color black(){
+		return zeroColor();
+	}
+	
 	public static Color color(Vector v){
 		Color c=new Color();
 		c.set_r(v.x);

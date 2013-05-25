@@ -21,6 +21,26 @@ public class RayTracer {
 	public int imageHeight;
 	public Scene scene;
 
+	private static String getExtension(String fileName){
+		String extension = "";
+
+		int i = fileName.lastIndexOf('.');
+		if (i > 0) {
+		    extension = fileName.substring(i+1);
+		}
+		return extension;
+	}
+	
+	private static String getName(String fileName){
+		String extension = "";
+
+		int i = fileName.lastIndexOf('.');
+		if (i > 0) {
+		    extension = fileName.substring(0,i);
+		}
+		return extension;
+	}
+	
 	/**
 	 * Runs the ray tracer. Takes scene file, output image file and image size as input.
 	 */
@@ -37,7 +57,36 @@ public class RayTracer {
 
 			if (args.length < 2)
 				throw new RayTracerException("Not enough arguments provided. Please specify an input scene file and an output image file for rendering.");
+			
+			String mode="many";
+			
+			if(mode.equals("many")){
+			String sceneFolderName=args[0];
+			String outputFolderName=args[1];
+			
+			File sceneFolder=new File(sceneFolderName);
+			
+			if (args.length > 3)
+			{
+				tracer.imageWidth = Integer.parseInt(args[2]);
+				tracer.imageHeight = Integer.parseInt(args[3]);
+			}
+			
+			for (File fileEntry : sceneFolder.listFiles()) {
+				if(getExtension(fileEntry.getName()).equals("txt")){
+					String sceneFileName=sceneFolder+"\\"+fileEntry.getName();
+					String outputFileName=outputFolderName+"\\"+getName(fileEntry.getName())+".png";
+					// Parse scene file:
+					tracer.parseScene(sceneFileName);
 
+					// Render scene:
+					tracer.renderScene(outputFileName);
+					
+					tracer.scene=new Scene();
+				}
+		    }
+			}
+			if(mode.equals("one")){
 			String sceneFileName = args[0];
 			String outputFileName = args[1];
 
@@ -53,6 +102,7 @@ public class RayTracer {
 
 			// Render scene:
 			tracer.renderScene(outputFileName);
+			}
 
 //		} catch (IOException e) {
 //			System.out.println(e.getMessage());
@@ -219,13 +269,25 @@ public class RayTracer {
 				rgbData[(y*imageWidth+x)*3]=Color.colorComponentToByte(c.r());
 				rgbData[(y*imageWidth+x)*3+1]=Color.colorComponentToByte(c.g());
 				rgbData[(y*imageWidth+x)*3+2]=Color.colorComponentToByte(c.b());
-				System.out.println("Finished rendering (x,y)=("+x+","+y+") out of width="+imageWidth+" and height="+imageHeight+"\n");
+				//System.out.println("Finished rendering (x,y)=("+x+","+y+") out of width="+imageWidth+" and height="+imageHeight+"\n");
+				long endTime = System.currentTimeMillis();
+				Long renderTime = endTime - startTime;
+				double iters=x*imageWidth+y+1;
+				double averageForIteration=renderTime/iters;
+				double itersToGo=imageWidth*imageHeight-iters;
+				long timeLeft=Math.round((averageForIteration*itersToGo)/1000);
+				if(timeLeft==0)
+					timeLeft=0;
+				//System.out.println("Estimated time to finish: " + timeLeft + " seconds");
+				System.out.println("Precents complete: " + Math.round(100*iters/(imageWidth*imageHeight)));
 				/*try {
 					Runtime.getRuntime().exec("cmd /c cls");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}*/
+				for(int k=0; k<100; k++)
+					System.out.println();
 			}
 		}
 
