@@ -145,14 +145,9 @@ public class ColorComputation {
 		Color illum=Color.zeroColor();
 		for(Light light: scene.lights){
 			Color light_illum=Color.color(diffs.get(light).add(specs.get(light)));
-			double shadowCoeff=1-light.shadowsI;
 			Ray lightToObject=Ray.getRay(light.position, point);
 			double raysPrecent=precentageOfReturnedRays(light, lightToObject, point, obj);
 			Color fromThisLight;
-			/*if(raysPrecent==1)
-				fromThisLight=light_illum;//TODO is this the real formula
-			else
-				fromThisLight=Color.color(light_illum.mul(shadowCoeff*raysPrecent));//TODO is this the real formula*/
 			fromThisLight=Color.color(light_illum.mul(raysPrecent));
 			illum=Color.color(illum.add(fromThisLight));
 		}
@@ -166,7 +161,6 @@ public class ColorComputation {
 		Vector center=light.position;
 		Vector v=new Vector();
 		Vector u=new Vector();
-		//LinearAlgebra.getPerpendicularPlane(v, u, center, lightToObject.direction);
         if (lightToObject.direction.x == 0)
             u = new Vector(1, 0, 0);
         else
