@@ -37,8 +37,12 @@ public class Vector {
 		this.z=other.z;
 	}
 	
+	public boolean isEqual(Vector other, double epsilon){
+		return this.distance(other)<=epsilon;
+	}
+	
 	public boolean isEqual(Vector other){
-		return this.distance(other)<0.00001;
+		return this.isEqual(other, 0.00001);
 	}
 	
 	// Here are some functions that do operations on vectors:

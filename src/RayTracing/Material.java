@@ -42,7 +42,7 @@ public class Material {
 	}
 	
 	public boolean isReflective(){
-		return !reflectionColor.isEqual(Color.zeroColor());
+		return !reflectionColor.isEqual(Color.zeroColor(), 0);
 	}
 
 }

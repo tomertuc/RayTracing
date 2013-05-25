@@ -58,7 +58,7 @@ public class RayTracer {
 			if (args.length < 2)
 				throw new RayTracerException("Not enough arguments provided. Please specify an input scene file and an output image file for rendering.");
 			
-			String mode="one";
+			String mode="many";
 			
 			if(mode.equals("many")){
 			String sceneFolderName=args[0];

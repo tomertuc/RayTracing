@@ -71,8 +71,6 @@ public class ColorComputation {
 		reflectionColor=getReflectedColor(obj, ray, normal, point, recursionsToGo);
 		transColor=getTransColor(obj, ray, normal, point, recursionsToGo);
 		
-		illuminatedColor=getIlluminatedFromDiffsAndSpecs_plusShadowing(diffuseColorsFromLights, specularColorsFromLights, point, obj);
-		
 		double IV=-1 * ray.direction.dot(normal);
 		double MI=material.incidence;
 		if(material.isTransparent())
@@ -80,6 +78,8 @@ public class ColorComputation {
 		if(material.isReflective())
 				reflectionColor=Color.color(reflectionColor.mul((1-MI)+MI*(1-IV)));
 		
+		illuminatedColor=getIlluminatedFromDiffsAndSpecs_plusShadowing(diffuseColorsFromLights, specularColorsFromLights, point, obj);
+	
 		//illuminatedColor=diffuseColor.add(specularColor);
 		outputColor=Color.color(transColor.mul(transparency).add(illuminatedColor.mul(1-transparency)).add(reflectionColor));
 		return outputColor;
@@ -149,7 +149,7 @@ public class ColorComputation {
 			Ray lightToObject=Ray.getRay(light.position, point);
 			double raysPrecent=precentageOfReturnedRays(light, lightToObject, point, obj);
 			Color fromThisLight;
-			if(raysPrecent==1)
+			/*if(raysPrecent==1)
 				fromThisLight=light_illum;//TODO is this the real formula
 			else
 				fromThisLight=Color.color(light_illum.mul(shadowCoeff*raysPrecent));//TODO is this the real formula*/
@@ -190,7 +190,7 @@ public class ColorComputation {
 					if(hittingPoint.isEqual(objPoint))
 						doesItHit=true;
 				}
-				hittingRays+=doesItHit?1:0;//1-light.shadowsI;
+				hittingRays+=doesItHit?1:1-light.shadowsI;
 				horizontalDistance+=stepSize;
 				doesItHit=false;
 			}
