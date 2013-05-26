@@ -184,14 +184,14 @@ public class ColorComputation {
 					if(hittingPoint.isEqual(objPoint))
 						doesItHit=true;
 				}
-				hittingRays+=doesItHit?1:1-light.shadowsI;
+				hittingRays+=doesItHit?1:0;//1-light.shadowsI;
 				horizontalDistance+=stepSize;
 				doesItHit=false;
 			}
 			verticalDistance+=stepSize;
 			horizontalDistance=0;
 		}
-		return hittingRays/(iterationWidth*iterationWidth);
+		return 1-light.shadowsI+hittingRays*light.shadowsI/(iterationWidth*iterationWidth);
 	}
 	
 	private double random(){

@@ -7,8 +7,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -284,7 +282,11 @@ public class RayTracer {
 	}
 
 	public static class RayTracerException extends Exception {
-		public RayTracerException(String msg) {  super(msg); }
+		private static final long serialVersionUID = 6442758677870305551L;
+
+		public RayTracerException(String msg) {
+		    super(msg);
+		}
 	}
 
 
