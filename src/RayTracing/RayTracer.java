@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -179,6 +181,26 @@ public class RayTracer {
 
 					System.out.println(String.format("Parsed light (line %d)", lineNum));
 				}
+				else if (code.equals("pnt"))
+				{
+					PointCloud pc=new PointCloud();
+					String path=params[0];
+					File plyFile=new File(path);
+					if(plyFile.exists()){
+						pc.setFile(plyFile);
+					}
+					else{
+						throw new RayTracerException(String.format("Couldn't find a file in %s", plyFile.getAbsolutePath()));
+					}
+					pc.setSize(params[1]);
+					pc.setColor(params[2], params[3], params[4]);
+					
+					pc.readPoints();
+					
+					scene.addPointCloud(pc);
+					
+					System.out.println(String.format("Parsed point cloud (line %d)", lineNum));
+				}
 				else
 				{
 					System.out.println(String.format("ERROR: Did not recognize object: %s (line %d)", code, lineNum));
@@ -214,7 +236,7 @@ public class RayTracer {
                 //
                 // Each of the red, green and blue components should be a byte, i.e. 0-255
 		
-		ColorComputation cc=new ColorComputation(scene);
+		/*ColorComputation cc=new ColorComputation(scene);
 		long precentsPrevious=-1;
 		for(int x=0; x<imageWidth; x++){
 			for(int y=0; y<imageHeight; y++){
@@ -229,6 +251,9 @@ public class RayTracer {
 				precentsPrevious=precents;
 			}
 		}
+		/*/
+		
+		scene.updateRGBdata(rgbData, imageWidth, imageHeight);
 
 		long endTime = System.currentTimeMillis();
 		Long renderTime = endTime - startTime;

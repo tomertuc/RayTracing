@@ -13,49 +13,16 @@ public class Scene implements Iterable<ObjectPrimitive>{
 	public List<Sphere> spheres;
 	public List<Plane> planes;
 	public List<Light> lights;
+	public List<PointCloud> pointClouds;
 	
 	public Scene(){
 		materials=new LinkedList<Material>();
 		spheres=new LinkedList<Sphere>();
 		planes=new LinkedList<Plane>();
 		lights=new LinkedList<Light>();
+		pointClouds=new LinkedList<PointCloud>();
 	}
 	
-	
-	/*public Color getColorOfPixel(int w, int h){
-		Ray ray=getRayToPixel(w,h);
-		
-		ObjectPrimitive intersected=findClosestIntersection(ray);
-		
-		Color c=intersected.getColorWrtIntersectedRay(ray);
-		
-		return c;
-	}
-	
-	private Ray getRayToPixel(int w, int h){
-		Vector startPoint=cam.position;
-		Vector toPoint=scr.getPixelPosition(w, h);
-		return Ray.getRay(startPoint, toPoint);
-	}
-	
-	public ObjectPrimitive findClosestIntersection(Ray ray){
-		return findClosestIntersection(ray, null);
-	}
-	
-	public ObjectPrimitive findClosestIntersection(Ray ray, ObjectPrimitive ignored){
-		double t, t_min=Double.MAX_VALUE;
-		ObjectPrimitive obj_min_intr=null;
-		for(ObjectPrimitive obj: this){
-			if(obj==ignored)
-				continue;
-			t=obj.getIntersection(ray);
-			if(t<t_min){
-				t_min=t;
-				obj_min_intr=obj;
-			}
-		}
-		return obj_min_intr;
-	}*/
 	
 	public void addCamera(Camera cam){
 		this.cam=cam;
@@ -74,17 +41,19 @@ public class Scene implements Iterable<ObjectPrimitive>{
 	}
 	
 	public void addSphere(Sphere sph){
-		//sph.setMaterial(materials.get(sph.materialIndex-1));
 		spheres.add(sph);
 	}
 	
 	public void addPlane(Plane pln){
-		//pln.setMaterial(materials.get(pln.materialIndex-1));
 		planes.add(pln);
 	}
 	
 	public void addLight(Light lgt){
 		lights.add(lgt);
+	}
+	
+	public void addPointCloud(PointCloud pc) {
+		pointClouds.add(pc);
 	}
 	
 	public void setMaterials(){
@@ -93,6 +62,21 @@ public class Scene implements Iterable<ObjectPrimitive>{
 		}
 	}
 
+	
+	public void updateRGBdata(byte[] rgbData, int imageWidth, int imageHeight){
+		for(int x=0; x<imageWidth; x++){
+			for(int y=0; y<imageHeight; y++){
+				Color back=setts.backgroundColor;
+				rgbData[(y*imageWidth+x)*3]=Color.colorComponentToByte(back.r());
+				rgbData[(y*imageWidth+x)*3+1]=Color.colorComponentToByte(back.g());
+				rgbData[(y*imageWidth+x)*3+2]=Color.colorComponentToByte(back.b());
+			}
+		}
+		
+		for(PointCloud pc: pointClouds){
+			
+		}
+	}
 
 	@Override
 	public Iterator<ObjectPrimitive> iterator() {
@@ -136,4 +120,5 @@ public class Scene implements Iterable<ObjectPrimitive>{
 		};
 		return it;
 	}
+	
 }
