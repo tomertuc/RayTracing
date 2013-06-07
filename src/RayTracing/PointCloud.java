@@ -77,6 +77,7 @@ public class PointCloud {
 				i++;
 			}
 		} 
+		r.close();
 	}
 	
 }

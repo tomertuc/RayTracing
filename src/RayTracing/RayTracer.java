@@ -7,8 +7,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -190,6 +188,7 @@ public class RayTracer {
 						pc.setFile(plyFile);
 					}
 					else{
+						r.close();
 						throw new RayTracerException(String.format("Couldn't find a file in %s", plyFile.getAbsolutePath()));
 					}
 					pc.setSize(params[1]);
