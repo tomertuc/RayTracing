@@ -67,6 +67,7 @@ public class Camera {
 		Vector P0=P.sub(Vx.mul(w)).sub(Vy.mul(h));
 		
 		screen.setOrigin(P0);
+		screen.setCenter(P);
 		
 		return screen;
 	}

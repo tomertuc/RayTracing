@@ -195,6 +195,7 @@ public class RayTracer {
 					pc.setColor(params[2], params[3], params[4]);
 					
 					pc.readPoints();
+					pc.computeBoundingBox();
 					
 					scene.addPointCloud(pc);
 					

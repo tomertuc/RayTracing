@@ -74,8 +74,47 @@ public class Scene implements Iterable<ObjectPrimitive>{
 		}
 		
 		for(PointCloud pc: pointClouds){
-			
+			//need to paint bounding box
+			for(int i=0; i<pc.pointArray.length; i++){
+				Point2d center=getXandYofPointOnImage(pc.pointArray[i], imageWidth, imageHeight);
+			}
 		}
+	}
+	
+	private Point2d getXandYofPointOnImage(Vector point, int imageWidth, int imageHeight){
+		Point2d xAndy=new Point2d();
+		Ray rayToPoint=Ray.getRayNotNormalized(cam.position, point);
+		double ratio=rayToPoint.direction.dot(cam.Vz)/cam.scrDist;
+		Vector pointOnScreen=cam.position.add(rayToPoint.direction.mul(1/ratio));
+		
+		Vector fromCenterToPoint=pointOnScreen.sub(scr.origin);
+		
+		double distX=fromCenterToPoint.dot(cam.Vx);
+		double xRatio=distX/scr.screen_width;
+		int x;
+		if(xRatio>1 || xRatio<-1){
+			double relativePlacement=(xRatio+1)/2;
+			double doublePixel=relativePlacement*imageWidth;
+			x=(int)Math.round(doublePixel);
+		}
+		else
+			return Point2d.outOfBounds();
+		
+		double distY=fromCenterToPoint.dot(cam.Vy);
+		double yRatio=distX/scr.screen_height;
+		int y;
+		if(yRatio>1 || yRatio<-1){
+			double relativePlacement=(yRatio+1)/2;
+			double doublePixel=relativePlacement*imageWidth;
+			y=(int)Math.round(doublePixel);
+		}
+		else
+			return Point2d.outOfBounds();
+		
+		xAndy.x=x;
+		xAndy.y=y;
+		
+		return xAndy;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package RayTracing;
 public class Screen {
 
 	public Vector origin;
+	public Vector center;
 	public int pixels_width;
 	public int pixels_height;
 	public double screen_width;
@@ -24,6 +25,10 @@ public class Screen {
 	
 	public void setOrigin(Vector origin){
 		this.origin=origin;
+	}
+	
+	public void setCenter(Vector center){
+		this.center=center;
 	}
 	
 	public void setPixelsWidth(int width){
