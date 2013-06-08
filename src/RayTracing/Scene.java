@@ -67,22 +67,45 @@ public class Scene implements Iterable<ObjectPrimitive>{
 		for(int x=0; x<imageWidth; x++){
 			for(int y=0; y<imageHeight; y++){
 				Color back=setts.backgroundColor;
-				rgbData[(y*imageWidth+x)*3]=Color.colorComponentToByte(back.r());
-				rgbData[(y*imageWidth+x)*3+1]=Color.colorComponentToByte(back.g());
-				rgbData[(y*imageWidth+x)*3+2]=Color.colorComponentToByte(back.b());
+				this.doSingleRGBupdate(rgbData, x, y, imageWidth, imageHeight, back);
 			}
 		}
 		
 		for(PointCloud pc: pointClouds){
-			//need to paint bounding box
+			for(int i=0; i<pc.boundingPointArray.length; i++){
+				Pixel center=getXandYofPointOnImage(pc.boundingPointArray[i], imageWidth, imageHeight);
+				if(center.isInBounds()){
+					double distanceFromCamera=pc.boundingPointArray[i].distance(cam.position);
+					double radius=pc.size/distanceFromCamera;
+					List<Pixel> intersectedPixels=center.getAllPixelsAroundThisPixel(radius, scr);
+					for(Pixel ip: intersectedPixels){
+						this.doSingleRGBupdate(rgbData, ip.x, ip.y, imageWidth, imageHeight, PointCloud.getBoundingBoxColor());
+					}
+				}
+			}
 			for(int i=0; i<pc.pointArray.length; i++){
-				Point2d center=getXandYofPointOnImage(pc.pointArray[i], imageWidth, imageHeight);
+				Pixel center=getXandYofPointOnImage(pc.pointArray[i], imageWidth, imageHeight);
+				if(center.isInBounds()){
+					double distanceFromCamera=pc.pointArray[i].distance(cam.position);
+					double radius=pc.size/distanceFromCamera;
+					List<Pixel> intersectedPixels=center.getAllPixelsAroundThisPixel(radius, scr);
+					for(Pixel ip: intersectedPixels){
+						this.doSingleRGBupdate(rgbData, ip.x, ip.y, imageWidth, imageHeight, pc.color);
+					}
+				}
 			}
 		}
+		
 	}
 	
-	private Point2d getXandYofPointOnImage(Vector point, int imageWidth, int imageHeight){
-		Point2d xAndy=new Point2d();
+	private void doSingleRGBupdate(byte[] rgbData, int x, int y, int imageWidth, int imageHeight, Color c){
+		rgbData[(y*imageWidth+x)*3]=Color.colorComponentToByte(c.r());
+		rgbData[(y*imageWidth+x)*3+1]=Color.colorComponentToByte(c.g());
+		rgbData[(y*imageWidth+x)*3+2]=Color.colorComponentToByte(c.b());
+	}
+	
+	private Pixel getXandYofPointOnImage(Vector point, int imageWidth, int imageHeight){
+		Pixel xAndy=new Pixel(imageWidth, imageHeight);
 		Ray rayToPoint=Ray.getRayNotNormalized(cam.position, point);
 		double ratio=rayToPoint.direction.dot(cam.Vz)/cam.scrDist;
 		Vector pointOnScreen=cam.position.add(rayToPoint.direction.mul(1/ratio));
@@ -96,20 +119,26 @@ public class Scene implements Iterable<ObjectPrimitive>{
 			double relativePlacement=(xRatio+1)/2;
 			double doublePixel=relativePlacement*imageWidth;
 			x=(int)Math.round(doublePixel);
+			if(x==imageWidth)
+				return Pixel.outOfBounds();
+			//else x in [0, imageWidth-1]
 		}
 		else
-			return Point2d.outOfBounds();
+			return Pixel.outOfBounds();
 		
 		double distY=fromCenterToPoint.dot(cam.Vy);
-		double yRatio=distX/scr.screen_height;
+		double yRatio=distY/scr.screen_height;
 		int y;
 		if(yRatio>1 || yRatio<-1){
 			double relativePlacement=(yRatio+1)/2;
 			double doublePixel=relativePlacement*imageWidth;
 			y=(int)Math.round(doublePixel);
+			if(y==imageHeight)
+				return Pixel.outOfBounds();
+			//else y in [0, imageHeight-1]
 		}
 		else
-			return Point2d.outOfBounds();
+			return Pixel.outOfBounds();
 		
 		xAndy.x=x;
 		xAndy.y=y;
