@@ -89,30 +89,27 @@ public class PointCloud {
 	public void computeBoundingBox() {
 		// Perform PCA using SVD.
 		
-		Vector[] samplePointArray;
-		if (pointArray.length < 1000){
-			samplePointArray = pointArray;
+		Vector sumOfPoints = new Vector(0,0,0);	
+		for (int i=0; i<pointArray.length; ++i){
+			sumOfPoints.add(pointArray[i]);
 		}
-		else{
-			samplePointArray = new Vector[1000];
-			float offsetToJump = ((float)pointArray.length - 1)/1000;
-			for (int i=0; i<1000; ++i){
-				samplePointArray[i] = pointArray[Math.round(i*offsetToJump)];
+		
+		Vector averagePoint = sumOfPoints.mul(1/pointArray.length);
+
+		Vector[] zeroCenteredPointArray;
+		if (pointArray.length < 1000){
+			zeroCenteredPointArray = new Vector[pointArray.length];
+			for (int i=0; i<pointArray.length; ++i){
+				zeroCenteredPointArray[i] = pointArray[i].sub(averagePoint);
 			}
 		}
-		
-		Vector sumOfSamplePoints = new Vector(0,0,0);	
-		for (int i=0; i<samplePointArray.length; ++i){
-			sumOfSamplePoints.add(samplePointArray[i]);
+		else{
+			zeroCenteredPointArray = new Vector[1000];
+			float offsetToJump = (pointArray.length - 1)/1000;
+			for (int i=0; i<1000; ++i){
+				zeroCenteredPointArray[i] = pointArray[Math.round(i*offsetToJump)].sub(averagePoint);
+			}
 		}
-		
-		Vector averageSamplePoint = sumOfSamplePoints.mul(1/samplePointArray.length);
-		
-		Vector[] zeroCenteredPointArray =  new Vector[samplePointArray.length];;
-		for (int i=0; i<samplePointArray.length; ++i){
-			zeroCenteredPointArray[i] = samplePointArray[i].sub(averageSamplePoint);
-		}
-		
 		
 		double[][] zeroCenteredDoubleArray = new double[zeroCenteredPointArray.length][3];
 		for (int i=0; i<zeroCenteredPointArray.length; ++i){
@@ -153,7 +150,7 @@ public class PointCloud {
         			boundingPointArray[4*i+2*j+k] = PCAVectorsArray[0].mul(sizesOfBoundingBox[0][i]).add(
         											PCAVectorsArray[1].mul(sizesOfBoundingBox[1][j]).add(
         											PCAVectorsArray[2].mul(sizesOfBoundingBox[2][k]).add(
-        											averageSamplePoint)));
+        											averagePoint)));
         		}
         	}
         }	
