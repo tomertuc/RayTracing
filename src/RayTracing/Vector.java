@@ -21,6 +21,12 @@ public class Vector {
 		this.z = z;	
 	}
 	
+	public Vector(double[] doubleArray){
+		this.x = doubleArray[0];
+		this.y = doubleArray[1];	
+		this.z = doubleArray[2];	
+	}
+	
 	public Vector(String x, String y, String z){
 		double vx=Double.parseDouble(x);
 		double vy=Double.parseDouble(y);
@@ -134,5 +140,13 @@ public class Vector {
 		
 		return result;
 	}	
+	
+	public double[] getArrayOfCoordinates () {
+		double[] arrayOfDoubles = new double[3];
+		arrayOfDoubles[0] = x;
+		arrayOfDoubles[1] = y;	
+		arrayOfDoubles[2] = z;	
+		return arrayOfDoubles;
+	}
 	
 }
