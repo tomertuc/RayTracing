@@ -89,34 +89,37 @@ public class PointCloud {
 	
 	public void computeBoundingBox() {
 		// Perform PCA using SVD.
-		
-		Vector sumOfPoints = new Vector(0,0,0);	
-		for (int i=0; i<pointArray.length; ++i){
-			sumOfPoints.add(pointArray[i]);
-		}
-		
-		Vector averagePoint = sumOfPoints.mul(1/pointArray.length);
 
-		Vector[] zeroCenteredPointArray;
+		Vector[] samplePointArray;
 		if (pointArray.length < 1000){
-			zeroCenteredPointArray = new Vector[pointArray.length];
-			for (int i=0; i<pointArray.length; ++i){
-				zeroCenteredPointArray[i] = pointArray[i].sub(averagePoint);
-			}
+			samplePointArray = pointArray;
 		}
 		else{
-			zeroCenteredPointArray = new Vector[1000];
-			float offsetToJump = (pointArray.length - 1)/1000;
+			samplePointArray = new Vector[1000];
+			float offsetToJump = ((float)pointArray.length - 1)/1000;
 			for (int i=0; i<1000; ++i){
-				zeroCenteredPointArray[i] = pointArray[Math.round(i*offsetToJump)].sub(averagePoint);
+				samplePointArray[i] = pointArray[Math.round(i*offsetToJump)];
 			}
 		}
-		
+
+		Vector sumOfSamplePoints = new Vector(0,0,0);	
+		for (int i=0; i<samplePointArray.length; ++i){
+			sumOfSamplePoints.add(samplePointArray[i]);
+		}
+
+		Vector averageSamplePoint = sumOfSamplePoints.mul(1/samplePointArray.length);
+
+		Vector[] zeroCenteredPointArray =  new Vector[samplePointArray.length];;
+		for (int i=0; i<samplePointArray.length; ++i){
+			zeroCenteredPointArray[i] = samplePointArray[i].sub(averageSamplePoint);
+		}
+
+
 		double[][] zeroCenteredDoubleArray = new double[zeroCenteredPointArray.length][3];
 		for (int i=0; i<zeroCenteredPointArray.length; ++i){
 			zeroCenteredDoubleArray[i] = zeroCenteredPointArray[i].getArrayOfCoordinates();
 		}
-		
+
 		// Perform SVD using the JAMA library.
 		Matrix zeroCenteredMatrix = new Matrix(zeroCenteredDoubleArray); 
         SingularValueDecomposition singularValueDecomposition = zeroCenteredMatrix.svd();
@@ -151,10 +154,9 @@ public class PointCloud {
         			boundingPointArray[4*i+2*j+k] = PCAVectorsArray[0].mul(sizesOfBoundingBox[0][i]).add(
         											PCAVectorsArray[1].mul(sizesOfBoundingBox[1][j]).add(
         											PCAVectorsArray[2].mul(sizesOfBoundingBox[2][k]).add(
-        											averagePoint)));
-        			System.out.println(boundingPointArray[4*i+2*j+k].toString());
+        											averageSamplePoint)));
         		}
         	}
-        }
+        }	
 	}
 }
