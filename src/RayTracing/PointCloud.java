@@ -33,6 +33,10 @@ public class PointCloud {
 		Color color = new Color("0", "0", "1");
 		return color;
 	}
+
+	public static double getBoundingBoxDotSize(){
+		return 7.0;
+	}
 	
 	public void readPoints() throws IOException{
 		FileReader fr = new FileReader(file);
