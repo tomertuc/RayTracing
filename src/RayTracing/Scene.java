@@ -76,11 +76,11 @@ public class Scene implements Iterable<ObjectPrimitive>{
 				Pixel center=getXandYofPointOnImage(pc.boundingPointArray[i], imageWidth, imageHeight);
 				if(center.isInBounds()){
 					double distanceFromCamera=pc.boundingPointArray[i].distance(cam.position);
-					double radius=pc.size/distanceFromCamera;
-					List<Pixel> intersectedPixels=center.getAllPixelsAroundThisPixel(radius, scr);
-					for(Pixel ip: intersectedPixels){
-						this.doSingleRGBupdate(rgbData, ip.x, ip.y, imageWidth, imageHeight, PointCloud.getBoundingBoxColor());
-					}
+					double radius=PointCloud.getBoundingBoxDotSize()/distanceFromCamera;
+					//List<Pixel> intersectedPixels=center.getAllPixelsAroundThisPixel(radius, scr);
+					//for(Pixel ip: intersectedPixels){
+						this.doSingleRGBupdate(rgbData, center.x, center.y, imageWidth, imageHeight, PointCloud.getBoundingBoxColor());
+					//}
 				}
 			}
 			for(int i=0; i<pc.pointArray.length; i++){
@@ -88,10 +88,11 @@ public class Scene implements Iterable<ObjectPrimitive>{
 				if(center.isInBounds()){
 					double distanceFromCamera=pc.pointArray[i].distance(cam.position);
 					double radius=pc.size/distanceFromCamera;
-					List<Pixel> intersectedPixels=center.getAllPixelsAroundThisPixel(radius, scr);
-					for(Pixel ip: intersectedPixels){
-						this.doSingleRGBupdate(rgbData, ip.x, ip.y, imageWidth, imageHeight, pc.color);
-					}
+					//List<Pixel> intersectedPixels=center.getAllPixelsAroundThisPixel(radius, scr);
+					//for(Pixel ip: intersectedPixels){
+						this.doSingleRGBupdate(rgbData, center.x, center.y, imageWidth, imageHeight, pc.color);
+					//}
+					System.out.println("Parsed " + i + " point out of " + pc.pointArray.length);
 				}
 			}
 		}
@@ -115,21 +116,25 @@ public class Scene implements Iterable<ObjectPrimitive>{
 		double distX=fromCenterToPoint.dot(cam.Vx);
 		double xRatio=distX/scr.screen_width;
 		int x;
-		if(xRatio>1 || xRatio<-1){
+		if(xRatio>1 || xRatio<-1)
+			return Pixel.outOfBounds();
+		else{
 			double relativePlacement=(xRatio+1)/2;
 			double doublePixel=relativePlacement*imageWidth;
 			x=(int)Math.round(doublePixel);
 			if(x==imageWidth)
 				return Pixel.outOfBounds();
-			//else x in [0, imageWidth-1]
 		}
-		else
-			return Pixel.outOfBounds();
+			//else x in [0, imageWidth-1]
+			
 		
 		double distY=fromCenterToPoint.dot(cam.Vy);
 		double yRatio=distY/scr.screen_height;
 		int y;
-		if(yRatio>1 || yRatio<-1){
+		if(yRatio>1 || yRatio<-1)
+			return Pixel.outOfBounds();
+		else
+		{
 			double relativePlacement=(yRatio+1)/2;
 			double doublePixel=relativePlacement*imageWidth;
 			y=(int)Math.round(doublePixel);
@@ -137,8 +142,7 @@ public class Scene implements Iterable<ObjectPrimitive>{
 				return Pixel.outOfBounds();
 			//else y in [0, imageHeight-1]
 		}
-		else
-			return Pixel.outOfBounds();
+			
 		
 		xAndy.x=x;
 		xAndy.y=y;

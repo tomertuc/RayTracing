@@ -149,4 +149,9 @@ public class Vector {
 		return arrayOfDoubles;
 	}
 	
+	@Override
+	public String toString(){
+		return x + "	" + y + "	" + z + "\n";
+	}
+	
 }

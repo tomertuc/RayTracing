@@ -43,7 +43,7 @@ public class PointCloud {
 
 		BufferedReader r = new BufferedReader(fr);
 		String line = null;
-		System.out.println("Started parsing scene file " + file);
+		System.out.println("Started parsing ply file " + file);
 		int numberOfPoints=0;
 
 		while ((line = r.readLine()) != null)
@@ -83,6 +83,7 @@ public class PointCloud {
 				i++;
 			}
 		} 
+		System.out.println("Finished parsing ply file " + file);
 		r.close();
 	}
 	
@@ -151,8 +152,9 @@ public class PointCloud {
         											PCAVectorsArray[1].mul(sizesOfBoundingBox[1][j]).add(
         											PCAVectorsArray[2].mul(sizesOfBoundingBox[2][k]).add(
         											averagePoint)));
+        			System.out.println(boundingPointArray[4*i+2*j+k].toString());
         		}
         	}
-        }	
+        }
 	}
 }

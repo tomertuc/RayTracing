@@ -76,15 +76,19 @@ public class Screen {
 		double distY=originToPoint.dot(Vy);
 		final double pixelWidth=screen_width/pixels_width;
 		final double pixelHeight=screen_height/pixels_height;
-		int numPixelsSeperatingInX=(int)Math.ceil(distX/pixelWidth);
-		int numPixelsSeperatingInY=(int)Math.ceil(distY/pixelHeight);
+		int numPixelsSeperatingInX=(int)Math.floor(distX/pixelWidth);
+		int numPixelsSeperatingInY=(int)Math.floor(distY/pixelHeight);
 		int x, y;
 		if(numPixelsSeperatingInX>=pixels_width)
 			x=pixels_width-1;
+		else if(numPixelsSeperatingInX<0)
+			x=0;
 		else
 			x=numPixelsSeperatingInX;
 		if(numPixelsSeperatingInY>=pixels_height)
 			y=pixels_height-1;
+		else if(numPixelsSeperatingInY<0)
+			y=0;
 		else
 			y=numPixelsSeperatingInY;
 		return new Pixel(pixels_width, pixels_height, x, y);

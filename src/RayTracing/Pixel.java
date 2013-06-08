@@ -49,9 +49,10 @@ public class Pixel {
 		for(int i=leftMost.x; i<=rightMost.x; i++){
 			for(int j=downMost.y; j<=upMost.y; j++){
 				Pixel p=new Pixel(imageWidth, imageHeight, i, j);
-				if(screen.minimalDistanceOfPixelFromPoint(p, pixelCenter)<=radius){
-					intersectedPixels.add(p);
-				}
+				intersectedPixels.add(p);
+				//if(screen.minimalDistanceOfPixelFromPoint(p, pixelCenter)<=radius){
+					
+				//}
 			}
 		}
 		
