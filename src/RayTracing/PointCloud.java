@@ -99,7 +99,7 @@ public class PointCloud {
 		}
 		else{
 			samplePointArray = new Vector[numberOfPoints];
-			float offsetToJump = (float)Math.floor(((float)pointArray.length - 1)/(float)numberOfPoints);
+			int offsetToJump = (pointArray.length - 1)/numberOfPoints;
 			for (int i=0; i<numberOfPoints; ++i){
 				samplePointArray[i] = pointArray[Math.round(i*offsetToJump)];
 			}
