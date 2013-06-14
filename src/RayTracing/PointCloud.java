@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import Jama.*; 
+import org.jblas.*;
 
 public class PointCloud {
 	
@@ -90,24 +91,26 @@ public class PointCloud {
 	public void computeBoundingBox() {
 		// Perform PCA using SVD.
 
+		int numberOfPoints=1000;
+		
 		Vector[] samplePointArray;
-		if (pointArray.length < 1000){
+		if (pointArray.length < numberOfPoints){
 			samplePointArray = pointArray;
 		}
 		else{
-			samplePointArray = new Vector[1000];
-			float offsetToJump = ((float)pointArray.length - 1)/1000;
-			for (int i=0; i<1000; ++i){
+			samplePointArray = new Vector[numberOfPoints];
+			float offsetToJump = (float)Math.floor(((float)pointArray.length - 1)/(float)numberOfPoints);
+			for (int i=0; i<numberOfPoints; ++i){
 				samplePointArray[i] = pointArray[Math.round(i*offsetToJump)];
 			}
 		}
 
 		Vector sumOfSamplePoints = new Vector(0,0,0);	
 		for (int i=0; i<samplePointArray.length; ++i){
-			sumOfSamplePoints.add(samplePointArray[i]);
+			sumOfSamplePoints=sumOfSamplePoints.add(samplePointArray[i]);
 		}
 
-		Vector averageSamplePoint = sumOfSamplePoints.mul(1/samplePointArray.length);
+		Vector averageSamplePoint = sumOfSamplePoints.mul(1/(float)samplePointArray.length);
 
 		Vector[] zeroCenteredPointArray =  new Vector[samplePointArray.length];;
 		for (int i=0; i<samplePointArray.length; ++i){
@@ -121,12 +124,18 @@ public class PointCloud {
 		}
 
 		// Perform SVD using the JAMA library.
-		Matrix zeroCenteredMatrix = new Matrix(zeroCenteredDoubleArray); 
-        SingularValueDecomposition singularValueDecomposition = zeroCenteredMatrix.svd();
-        Matrix U = singularValueDecomposition.getU();
+		Matrix zeroCenteredMatrix = new Matrix(zeroCenteredDoubleArray);
+		SingularValueDecomposition svd=zeroCenteredMatrix.svd();
+		Matrix U=svd.getV();
+		//U = zeroCenteredMatrix.times(zeroCenteredMatrix.transpose()).eig().getV();
+		double[][] PCAResultDoubleArray = U.transpose().getArrayCopy();		 
+		
+		/*DoubleMatrix zeroCenteredMatrix=new DoubleMatrix(zeroCenteredDoubleArray).transpose(); 
+        DoubleMatrix[] singularValueDecomposition = Singular.fullSVD(zeroCenteredMatrix);
+        DoubleMatrix U = singularValueDecomposition[0];
+        double[][] PCAResultDoubleArray = U.transpose().toArray2();*/
         
         // Find the final 3 PCA vectors.
-        double[][] PCAResultDoubleArray = U.getArrayCopy();
         Vector[] PCAVectorsArray = new Vector[3];
 		for (int i=0; i<3; ++i){
 			Vector PCAVector = new Vector(PCAResultDoubleArray[i]);
@@ -155,8 +164,10 @@ public class PointCloud {
         											PCAVectorsArray[1].mul(sizesOfBoundingBox[1][j]).add(
         											PCAVectorsArray[2].mul(sizesOfBoundingBox[2][k]).add(
         											averageSamplePoint)));
+        			System.out.println(boundingPointArray[4*i+2*j+k].toString());
         		}
         	}
         }	
+        System.out.println();
 	}
 }
